@@ -15,7 +15,7 @@ def create_channel_image(image, channel):
     image_np[:, :, channel] = np.array(image)[:, :, channel]
     return Image.fromarray(image_np)
 # Загрузка изображения
-image = Image.open('GREG2.jpg')
+image = Image.open('FRUITS.jpg')
 plt.imshow(image)
 
 # Извлечение каналов R, G, B

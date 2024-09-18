@@ -14,7 +14,7 @@ def rgb_to_gray(image, coefficients):
 
 
 # Загрузка изображения
-image = Image.open('GREG2.jpg')
+image = Image.open('FRUITS.jpg')
 plt.imshow(image)
 # Формула 1: Y = 0.299R + 0.587G + 0.114B
 coefficients1 = [0.299, 0.587, 0.114]

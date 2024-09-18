@@ -25,7 +25,7 @@ def update(val):
     fig.canvas.draw_idle()
 
 # Загрузка изображения
-image_path = 'GREG2.jpg'  # Укажи путь к изображению
+image_path = 'FRUITS.jpg'  # Укажи путь к изображению
 image = cv2.cvtColor(cv2.imread(image_path), cv2.COLOR_BGR2RGB)
 
 # Преобразование изображения в HSV
