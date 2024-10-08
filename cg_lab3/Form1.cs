@@ -1,150 +1,221 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
+using System.Linq;
+using System.Net.NetworkInformation;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GradientTriangle
+namespace Lab3
 {
     public partial class Form1 : Form
     {
-        // Координаты вершин треугольника
-        private PointF[] trianglePoints = new PointF[3];
-        // Цвета для каждой вершины
-        private Color[] triangleColors = new Color[3];
-        // Переменные для перетаскивания вершин
-        private bool isDragging = false;
-        private int draggedPointIndex = -1;
+
+        Graphics _graphics;
+        Bitmap bitmap;
+        Point[] point = new Point[3];
+        Color[] colors = new Color[3];
+        int index = 0;
+        Pen p = new Pen(Color.Red, 1);
 
         public Form1()
         {
             InitializeComponent();
-            this.DoubleBuffered = true;  // Для избежания мерцания при перерисовке
-
-            // Инициализация вершин треугольника
-            trianglePoints[0] = new PointF(100, 100);
-            trianglePoints[1] = new PointF(300, 100);
-            trianglePoints[2] = new PointF(200, 300);
-
-            // Инициализация цветов вершин
-            triangleColors[0] = Color.Red;
-            triangleColors[1] = Color.Green;
-            triangleColors[2] = Color.Blue;
-
-            // Подписываемся на события мыши
-            this.MouseDown += Form1_MouseDown;
-            this.MouseMove += Form1_MouseMove;
-            this.MouseUp += Form1_MouseUp;
-            this.Paint += Form1_Paint;
+            bitmap = new Bitmap(pic.Width, pic.Height);
+            _graphics = Graphics.FromImage(bitmap);
+            _graphics.Clear(Color.White);
+            pic.Image = bitmap;
         }
 
-        // Проверка на попадание в вершину треугольника
-        private bool IsPointInSquare(PointF point, PointF vertex, float size = 10)
+        private void pic_MouseClick(object sender, MouseEventArgs e)
         {
-            return Math.Abs(point.X - vertex.X) < size && Math.Abs(point.Y - vertex.Y) < size;
-        }
-
-        // Обработчик нажатия на мышь
-        private void Form1_MouseDown(object sender, MouseEventArgs e)
-        {
-            for (int i = 0; i < trianglePoints.Length; i++)
+            if (index < 2)
             {
-                if (IsPointInSquare(e.Location, trianglePoints[i]))
+                point[index] = e.Location;
+                colors[index] = p.Color;
+                index++;
+                _graphics.DrawRectangle(p, e.Location.X, e.Location.Y, 1, 1);
+                pic.Refresh();
+            }
+            else
+            {
+                index = 0;
+                point[2] = e.Location;
+                colors[2] = p.Color;
+                _graphics.DrawRectangle(p, e.Location.X, e.Location.Y, 1, 1);
+
+                DrawTriangle();
+                pic.Refresh();
+            }
+        }
+
+        private void DrawTriangle()
+        {
+
+            // Сортировка точек по y-координате для корректной работы
+            if (point[1].Y < point[0].Y) Swap(0, 1);
+            if (point[2].Y < point[0].Y) Swap(0, 2);
+            if (point[2].Y < point[1].Y) Swap(1, 2);
+
+            int top_y = point[0].Y;
+
+            while (top_y < point[1].Y)
+            {
+                float Xleft, Xright;
+                Xleft = InterpolateX(point[0], point[1], point[2], top_y, true, false);
+                Xright = InterpolateX(point[0], point[1], point[2], top_y, false, false);
+
+                // Интерполяция цвета на левом и правом краях
+                Color Cleft = InterpolateColor(point[0], point[1], colors[0], colors[1], top_y);
+                Color Cright = InterpolateColor(point[0], point[2], colors[0], colors[2], top_y);
+
+                if (Xleft > Xright)
                 {
-                    isDragging = true;
-                    draggedPointIndex = i;
-                    break;
+                    (Xleft, Xright) = (Xright, Xleft);
+                    (Cleft, Cright) = (Cright, Cleft);
+                }
+
+                // Интерполяция по x между Cleft и Cright
+                for (float x = Xleft; x <= Xright; x++)
+                {
+                    float t = (x - Xleft) / (Xright - Xleft); // Нормализованный коэффициент для интерполяции
+                    Color interpolatedColor = InterpolateColor(Cleft, Cright, t);
+
+                    p.Color = interpolatedColor;
+                    _graphics.DrawRectangle(p, x, top_y, 1, 1);
+                }
+                top_y++;
+            }
+            while (top_y < point[2].Y)
+            {
+                float Xleft, Xright;
+                Xleft = InterpolateX(point[0], point[1], point[2], top_y, true, true);
+                Xright = InterpolateX(point[0], point[1], point[2], top_y, false, true);
+
+                // Интерполяция цвета на левом и правом краях
+                Color Cleft = InterpolateColor(point[1], point[2], colors[1], colors[2], top_y);
+                Color Cright = InterpolateColor(point[0], point[2], colors[0], colors[2], top_y);
+
+                if (Xleft > Xright)
+                {
+                    (Xleft, Xright) = (Xright, Xleft);
+                    (Cleft, Cright) = (Cright, Cleft);
+                }
+
+                // Интерполяция по x между Cleft и Cright
+                for (float x = Xleft; x <= Xright; x++)
+                {
+                    float t = (x - Xleft) / (Xright - Xleft); // Нормализованный коэффициент для интерполяции
+                    Color interpolatedColor = InterpolateColor(Cleft, Cright, t);
+
+                    p.Color = interpolatedColor;
+                    _graphics.DrawRectangle(p, x, top_y, 1, 1);
+                }
+                top_y++;
+            }
+        }
+
+        // Линейная интерполяция для нахождения X на отрезке для данного y
+        private float InterpolateX(Point p0, Point p1, Point p2, float y, bool isLeft, bool afterMid)
+        {
+            if (!afterMid)
+            {
+                if (isLeft)
+                {
+
+                    if (p0.Y == p1.Y) return p0.X;
+                    return p0.X + (p1.X - p0.X) * (y - p0.Y) / (p1.Y - p0.Y);
+
+                }
+                else
+                {
+
+
+                    if (p0.Y == p2.Y) return p0.X;
+                    return p0.X + (p2.X - p0.X) * (y - p0.Y) / (p2.Y - p0.Y);
+
+                }
+            }
+            else
+            {
+                if (isLeft)
+                {
+
+                    if (p1.Y == p2.Y) return p1.X;
+                    return p1.X + (p2.X - p1.X) * (y - p1.Y) / (p2.Y - p1.Y);
+
+                }
+                else
+                {
+
+
+                    if (p0.Y == p2.Y) return p0.X;
+                    return p0.X + (p2.X - p0.X) * (y - p0.Y) / (p2.Y - p0.Y);
+
                 }
             }
         }
 
-        // Обработчик перемещения мыши
-        private void Form1_MouseMove(object sender, MouseEventArgs e)
+        // Линейная интерполяция цвета по оси y
+        private Color InterpolateColor(Point p0, Point p1, Color c0, Color c1, float y)
         {
-            if (isDragging && draggedPointIndex != -1)
-            {
-                // Перемещаем выбранную вершину
-                trianglePoints[draggedPointIndex] = e.Location;
-                this.Invalidate();  // Перерисовка формы
-            }
+            if (p0.Y == p1.Y) return c0; // Защита от деления на 0
+            float t = (y - p0.Y) / (p1.Y - p0.Y);
+            return InterpolateColor(c0, c1, t);
         }
 
-        // Обработчик отпускания кнопки мыши
-        private void Form1_MouseUp(object sender, MouseEventArgs e)
+        // Линейная интерполяция между двумя цветами по t (от 0 до 1)
+        private Color InterpolateColor(Color c1, Color c2, float t)
         {
-            isDragging = false;
-            draggedPointIndex = -1;
-            this.Invalidate();  // Перерисовка формы с новым положением
-        }
+            int r = (int)Math.Round(c1.R + (c2.R - c1.R) * t);
+            int g = (int)Math.Round(c1.G + (c2.G - c1.G) * t);
+            int b = (int)Math.Round(c1.B + (c2.B - c1.B) * t);
 
-        // Обработчик перерисовки
-        private void Form1_Paint(object sender, PaintEventArgs e)
-        {
-            Graphics g = e.Graphics;
-
-            // Отрисовка градиента внутри треугольника
-            FillGradientTriangle(g, trianglePoints, triangleColors);
-
-            // Отрисовка вершин треугольника в виде квадратов для перемещения
-            foreach (PointF point in trianglePoints)
-            {
-                g.FillRectangle(Brushes.Black, point.X - 5, point.Y - 5, 10, 10);
-            }
-        }
-
-        // Функция для заливки треугольника с градиентом
-        private void FillGradientTriangle(Graphics g, PointF[] points, Color[] colors)
-        {
-            Bitmap bitmap = new Bitmap(this.ClientSize.Width, this.ClientSize.Height);
-            using (Graphics bmpGraphics = Graphics.FromImage(bitmap))
-            {
-                // Используем интерполяцию для градиента
-                for (int y = 0; y < bitmap.Height; y++)
-                {
-                    for (int x = 0; x < bitmap.Width; x++)
-                    {
-                        PointF p = new PointF(x, y);
-                        if (IsPointInTriangle(p, points))
-                        {
-                            Color interpolatedColor = InterpolateColor(p, points, colors);
-                            bitmap.SetPixel(x, y, interpolatedColor);
-                        }
-                    }
-                }
-            }
-
-            g.DrawImage(bitmap, 0, 0);
-        }
-
-        // Функция проверки, находится ли точка внутри треугольника
-        private bool IsPointInTriangle(PointF p, PointF[] triangle)
-        {
-            float area = TriangleArea(triangle[0], triangle[1], triangle[2]);
-            float area1 = TriangleArea(p, triangle[1], triangle[2]);
-            float area2 = TriangleArea(triangle[0], p, triangle[2]);
-            float area3 = TriangleArea(triangle[0], triangle[1], p);
-
-            return Math.Abs(area - (area1 + area2 + area3)) < 0.01;
-        }
-
-        // Вычисление площади треугольника
-        private float TriangleArea(PointF p1, PointF p2, PointF p3)
-        {
-            return Math.Abs((p1.X * (p2.Y - p3.Y) + p2.X * (p3.Y - p1.Y) + p3.X * (p1.Y - p2.Y)) / 2.0f);
-        }
-
-        // Функция интерполяции цвета в зависимости от положения точки внутри треугольника
-        private Color InterpolateColor(PointF p, PointF[] points, Color[] colors)
-        {
-            float totalArea = TriangleArea(points[0], points[1], points[2]);
-
-            float w1 = TriangleArea(p, points[1], points[2]) / totalArea;
-            float w2 = TriangleArea(p, points[0], points[2]) / totalArea;
-            float w3 = TriangleArea(p, points[0], points[1]) / totalArea;
-
-            int r = (int)(w1 * colors[0].R + w2 * colors[1].R + w3 * colors[2].R);
-            int g = (int)(w1 * colors[0].G + w2 * colors[1].G + w3 * colors[2].G);
-            int b = (int)(w1 * colors[0].B + w2 * colors[1].B + w3 * colors[2].B);
+            // Ограничение значений цветов в диапазоне от 0 до 255
+            r = Clamp(r, 0, 255);
+            g = Clamp(g, 0, 255);
+            b = Clamp(b, 0, 255);
 
             return Color.FromArgb(r, g, b);
+        }
+
+        private int Clamp(int value, int min, int max)
+        {
+            if (value < min) return min;
+            if (value > max) return max;
+            return value;
+        }
+
+        // Вспомогательная функция для обмена точками и цветами
+        private void Swap(int i, int j)
+        {
+            Point tempPoint = point[i];
+            point[i] = point[j];
+            point[j] = tempPoint;
+
+            Color tempColor = colors[i];
+            colors[i] = colors[j];
+            colors[j] = tempColor;
+        }
+
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            Button button = (sender as Button);
+            {
+                p.Color = button.BackColor;
+            }
+        }
+
+        private void Erase_Click(object sender, EventArgs e)
+        {
+            _graphics.Clear(Color.White);
+            index = 0;
+            pic.Refresh();
         }
     }
 }
