@@ -93,8 +93,12 @@ namespace lab4
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
-            if(userXTextBox.Text != "" && userYTextBox.Text != "")
+            if (userXTextBox.Text != "" && userYTextBox.Text != "")
             {
+                isPointInPolygon.Text = IsPointInPolygon(
+                new Point2D(double.Parse(userXTextBox.Text),
+                double.Parse(userYTextBox.Text)), currentPolygon
+                ) ? "Да" : "Нет";
                 e.Graphics.DrawRectangle(
                     new Pen(Color.DimGray, 1),
                     float.Parse(userXTextBox.Text),

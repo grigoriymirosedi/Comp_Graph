@@ -63,6 +63,8 @@ namespace lab4
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.userYTextBox = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.isPointInPolygon = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -104,7 +106,7 @@ namespace lab4
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(620, 313);
+            this.btnClear.Location = new System.Drawing.Point(620, 296);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(100, 23);
             this.btnClear.TabIndex = 4;
@@ -220,9 +222,28 @@ namespace lab4
             this.userYTextBox.Size = new System.Drawing.Size(100, 20);
             this.userYTextBox.TabIndex = 18;
             // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(518, 346);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(200, 13);
+            this.label3.TabIndex = 19;
+            this.label3.Text = "Находится ли точка внутри полигона: ";
+            // 
+            // isPointInPolygon
+            // 
+            this.isPointInPolygon.AutoSize = true;
+            this.isPointInPolygon.Location = new System.Drawing.Point(712, 346);
+            this.isPointInPolygon.Name = "isPointInPolygon";
+            this.isPointInPolygon.Size = new System.Drawing.Size(0, 13);
+            this.isPointInPolygon.TabIndex = 20;
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(984, 761);
+            this.Controls.Add(this.isPointInPolygon);
+            this.Controls.Add(this.label3);
             this.Controls.Add(this.userYTextBox);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
@@ -255,6 +276,8 @@ namespace lab4
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox userYTextBox;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label isPointInPolygon;
     }
 }
 
