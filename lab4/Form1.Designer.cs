@@ -65,6 +65,14 @@ namespace lab4
             this.userYTextBox = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.isPointInPolygon = new System.Windows.Forms.Label();
+            this.vertexListLabel = new System.Windows.Forms.Label();
+            this.vertexList = new System.Windows.Forms.ComboBox();
+            this.EdgePoint1Label = new System.Windows.Forms.Label();
+            this.EdgePoint2Label = new System.Windows.Forms.Label();
+            this.EdgePoint1Value = new System.Windows.Forms.TextBox();
+            this.EdgePoint2Value = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.LeftRightPosition = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -239,9 +247,83 @@ namespace lab4
             this.isPointInPolygon.Size = new System.Drawing.Size(0, 13);
             this.isPointInPolygon.TabIndex = 20;
             // 
+            // vertexListLabel
+            // 
+            this.vertexListLabel.AutoSize = true;
+            this.vertexListLabel.Location = new System.Drawing.Point(9, 426);
+            this.vertexListLabel.Name = "vertexListLabel";
+            this.vertexListLabel.Size = new System.Drawing.Size(157, 13);
+            this.vertexListLabel.TabIndex = 21;
+            this.vertexListLabel.Text = "координаты текущих вершин:";
+            // 
+            // vertexList
+            // 
+            this.vertexList.FormattingEnabled = true;
+            this.vertexList.Location = new System.Drawing.Point(172, 426);
+            this.vertexList.Name = "vertexList";
+            this.vertexList.Size = new System.Drawing.Size(121, 21);
+            this.vertexList.TabIndex = 22;
+            // 
+            // EdgePoint1Label
+            // 
+            this.EdgePoint1Label.AutoSize = true;
+            this.EdgePoint1Label.Location = new System.Drawing.Point(548, 405);
+            this.EdgePoint1Label.Name = "EdgePoint1Label";
+            this.EdgePoint1Label.Size = new System.Drawing.Size(110, 13);
+            this.EdgePoint1Label.TabIndex = 23;
+            this.EdgePoint1Label.Text = "первая точка ребра:";
+            // 
+            // EdgePoint2Label
+            // 
+            this.EdgePoint2Label.AutoSize = true;
+            this.EdgePoint2Label.Location = new System.Drawing.Point(548, 434);
+            this.EdgePoint2Label.Name = "EdgePoint2Label";
+            this.EdgePoint2Label.Size = new System.Drawing.Size(109, 13);
+            this.EdgePoint2Label.TabIndex = 24;
+            this.EdgePoint2Label.Text = "вторая точка ребра:";
+            // 
+            // EdgePoint1Value
+            // 
+            this.EdgePoint1Value.Location = new System.Drawing.Point(675, 402);
+            this.EdgePoint1Value.Name = "EdgePoint1Value";
+            this.EdgePoint1Value.Size = new System.Drawing.Size(100, 20);
+            this.EdgePoint1Value.TabIndex = 25;
+            // 
+            // EdgePoint2Value
+            // 
+            this.EdgePoint2Value.Location = new System.Drawing.Point(675, 434);
+            this.EdgePoint2Value.Name = "EdgePoint2Value";
+            this.EdgePoint2Value.Size = new System.Drawing.Size(100, 20);
+            this.EdgePoint2Value.TabIndex = 26;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(453, 468);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(205, 13);
+            this.label4.TabIndex = 27;
+            this.label4.Text = "Положение точки относительно ребра:";
+            // 
+            // LeftRightPosition
+            // 
+            this.LeftRightPosition.AutoSize = true;
+            this.LeftRightPosition.Location = new System.Drawing.Point(675, 468);
+            this.LeftRightPosition.Name = "LeftRightPosition";
+            this.LeftRightPosition.Size = new System.Drawing.Size(0, 13);
+            this.LeftRightPosition.TabIndex = 28;
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(984, 761);
+            this.Controls.Add(this.LeftRightPosition);
+            this.Controls.Add(this.label4);
+            this.Controls.Add(this.EdgePoint2Value);
+            this.Controls.Add(this.EdgePoint1Value);
+            this.Controls.Add(this.EdgePoint2Label);
+            this.Controls.Add(this.EdgePoint1Label);
+            this.Controls.Add(this.vertexList);
+            this.Controls.Add(this.vertexListLabel);
             this.Controls.Add(this.isPointInPolygon);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.userYTextBox);
@@ -278,6 +360,14 @@ namespace lab4
         private System.Windows.Forms.TextBox userYTextBox;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label isPointInPolygon;
+        private System.Windows.Forms.Label vertexListLabel;
+        private System.Windows.Forms.ComboBox vertexList;
+        private System.Windows.Forms.Label EdgePoint1Label;
+        private System.Windows.Forms.Label EdgePoint2Label;
+        private System.Windows.Forms.TextBox EdgePoint1Value;
+        private System.Windows.Forms.TextBox EdgePoint2Value;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label LeftRightPosition;
     }
 }
 

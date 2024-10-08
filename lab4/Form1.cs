@@ -87,6 +87,8 @@ namespace lab4
             {
                 Point2D point = new Point2D(e.X, e.Y);
                 currentPolygon.AddVertex(point);
+                vertexList.Items.Add(e.X.ToString() + " " + e.Y.ToString() + "\n");
+                vertexList.SelectedItem = e.X.ToString() + " " + e.Y.ToString() + "\n";
                 pictureBox.Invalidate(); // Обновляем PictureBox для перерисовки
             }
         }
@@ -105,6 +107,20 @@ namespace lab4
                     float.Parse(userYTextBox.Text),
                     1,1
                 );
+                if (EdgePoint1Value.Text != "" && EdgePoint2Value.Text != "" /*&& Math.Abs(currentPolygon.Vertices.IndexOf(new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]))) - currentPolygon.Vertices.IndexOf(new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1])))) == 1*/)
+                {
+                    var p = new Point2D(double.Parse(userXTextBox.Text),
+                double.Parse(userYTextBox.Text));
+                    var a = new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]));
+                    var b = new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1]));
+                    var inda = currentPolygon.Vertices.FindIndex(x => x.Equals(a));
+                    var indb = currentPolygon.Vertices.FindIndex(x => x.Equals(b));
+                    var cnt = Math.Abs(inda - indb) == 1;
+                    if (cnt)
+                        LeftRightPosition.Text = ClassifyPoint(p, b, a);
+                    else
+                        LeftRightPosition.Text = "Пара точек не является ребром";
+                }
             }
             if (currentPolygon.Vertices.Count > 1)
             {
@@ -163,6 +179,10 @@ namespace lab4
             double newX = X * matrix[0, 0] + Y * matrix[0, 1] + matrix[0, 2];
             double newY = X * matrix[1, 0] + Y * matrix[1, 1] + matrix[1, 2];
             return new Point2D(newX, newY);
+        }
+        public bool Equals(Point2D other)
+        {
+            return X == other.X && Y == other.Y;
         }
     }
     public class Polygon
