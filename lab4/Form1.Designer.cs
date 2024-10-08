@@ -59,6 +59,10 @@ namespace lab4
             this.lblAngle = new System.Windows.Forms.Label();
             this.lblScaleX = new System.Windows.Forms.Label();
             this.lblScaleY = new System.Windows.Forms.Label();
+            this.userXTextBox = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.userYTextBox = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -100,7 +104,7 @@ namespace lab4
             // 
             // btnClear
             // 
-            this.btnClear.Location = new System.Drawing.Point(620, 250);
+            this.btnClear.Location = new System.Drawing.Point(620, 313);
             this.btnClear.Name = "btnClear";
             this.btnClear.Size = new System.Drawing.Size(100, 23);
             this.btnClear.TabIndex = 4;
@@ -182,9 +186,47 @@ namespace lab4
             this.lblScaleY.TabIndex = 14;
             this.lblScaleY.Text = "Масштаб Y:";
             // 
+            // userXTextBox
+            // 
+            this.userXTextBox.Location = new System.Drawing.Point(620, 217);
+            this.userXTextBox.Name = "userXTextBox";
+            this.userXTextBox.Size = new System.Drawing.Size(100, 20);
+            this.userXTextBox.TabIndex = 15;
+            this.userXTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(553, 217);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(64, 13);
+            this.label1.TabIndex = 16;
+            this.label1.Text = "userX Input:";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(553, 253);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.TabIndex = 17;
+            this.label2.Text = "userY input:";
+            // 
+            // userYTextBox
+            // 
+            this.userYTextBox.Location = new System.Drawing.Point(620, 250);
+            this.userYTextBox.Name = "userYTextBox";
+            this.userYTextBox.Size = new System.Drawing.Size(100, 20);
+            this.userYTextBox.TabIndex = 18;
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(984, 761);
+            this.Controls.Add(this.userYTextBox);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.userXTextBox);
             this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.btnTranslate);
             this.Controls.Add(this.btnRotate);
@@ -208,6 +250,11 @@ namespace lab4
 
         }
         #endregion
+
+        private System.Windows.Forms.TextBox userXTextBox;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox userYTextBox;
     }
 }
 

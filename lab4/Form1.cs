@@ -68,13 +68,22 @@ namespace lab4
         private void btnRotate_Click(object sender, EventArgs e)
         {
             double angle = double.Parse(txtAngle.Text);
-            Point2D center = currentPolygon.GetCentroid(); // Центр полигона
+            var userXValue = userXTextBox.Text;
+            var userYValue = userYTextBox.Text;
+            Point2D center = (userXValue != "" && userYValue != "") ? new Point2D(double.Parse(userXValue), double.Parse(userYValue)) : currentPolygon.GetCentroid(); // Центр полигона
             currentPolygon.ApplyTransformation(AffineTransform.Rotation(angle, center));
             pictureBox.Invalidate(); // Обновление PictureBox
         }
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            if (isDrawing)
+            if(e.Button == MouseButtons.Right)
+            {
+                
+                userXTextBox.Text = e.X.ToString();
+                userYTextBox.Text = e.Y.ToString();
+                pictureBox.Invalidate();
+            }
+            else if (isDrawing)
             {
                 Point2D point = new Point2D(e.X, e.Y);
                 currentPolygon.AddVertex(point);
@@ -84,6 +93,15 @@ namespace lab4
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
+            if(userXTextBox.Text != "" && userYTextBox.Text != "")
+            {
+                e.Graphics.DrawRectangle(
+                    new Pen(Color.DimGray, 1),
+                    float.Parse(userXTextBox.Text),
+                    float.Parse(userYTextBox.Text),
+                    1,1
+                );
+            }
             if (currentPolygon.Vertices.Count > 1)
             {
                 for (int i = 0; i < currentPolygon.Vertices.Count - 1; i++)
@@ -108,13 +126,22 @@ namespace lab4
         {
             double scaleX = double.Parse(txtScaleX.Text);
             double scaleY = double.Parse(txtScaleY.Text);
-            Point2D center = currentPolygon.GetCentroid(); // Центр полигона
+            var userXValue = userXTextBox.Text;
+            var userYValue = userYTextBox.Text;
+            Point2D center = (userXValue != "" && userYValue != "") ? new Point2D(double.Parse(userXValue), double.Parse(userYValue)) : currentPolygon.GetCentroid(); // Центр полигона
             currentPolygon.ApplyTransformation(AffineTransform.Scaling(scaleX, scaleY, center));
             pictureBox.Invalidate(); // Обновление PictureBox
         }
 
+        private void label1_Click(object sender, EventArgs e)
+        {
 
+        }
 
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
     public class Point2D
     {
