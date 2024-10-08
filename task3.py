@@ -6,8 +6,8 @@ from matplotlib.widgets import Slider
 # Функция для обновления изображения с новыми параметрами HSV
 def update(val):
     h = h_slider.val #/ 180  # Преобразование значения ползунка в диапазон 0-180
-    s = s_slider.val / 100  # Преобразование в диапазон 0.0-1.0 для насыщенности
-    v = v_slider.val / 100  # Преобразование в диапазон 0.0-1.0 для яркости
+    s = s_slider.val / 50  # Преобразование в диапазон 0.0-1.0 для насыщенности
+    v = v_slider.val / 50  # Преобразование в диапазон 0.0-1.0 для яркости
 
     # Создание копии изображения HSV
     hsv_mod = hsv_image.copy()
@@ -51,9 +51,9 @@ ax_s = plt.axes([0.25, 0.18, 0.65, 0.03], facecolor='lightgray')
 ax_v = plt.axes([0.25, 0.11, 0.65, 0.03], facecolor='lightgray')
 
 # Ползунки для управления параметрами HSV (диапазон от 0 до 110)
-h_slider = Slider(ax_h, 'Hue', 0, 360, valinit=0)
-s_slider = Slider(ax_s, 'Saturation', 0, 200, valinit=100)
-v_slider = Slider(ax_v, 'Value', 0, 200, valinit=100)
+h_slider = Slider(ax_h, 'Hue', 0, 257, valinit=0)
+s_slider = Slider(ax_s, 'Saturation', 0, 150, valinit=50)
+v_slider = Slider(ax_v, 'Value', 0, 150, valinit=50)
 
 # Обновление изображения при изменении ползунков
 h_slider.on_changed(update)
