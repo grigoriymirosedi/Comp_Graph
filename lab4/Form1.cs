@@ -139,6 +139,8 @@ namespace lab4
         private void btnClear_Click(object sender, EventArgs e)
         {
             currentPolygon = new Polygon();
+            vertexList.SelectedItem = null;
+            vertexList.Items.Clear();
             pictureBox.Invalidate(); // Обновление PictureBox
         }
 
