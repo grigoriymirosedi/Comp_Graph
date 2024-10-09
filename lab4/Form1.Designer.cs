@@ -127,6 +127,7 @@ namespace lab4
             this.txtDx.Name = "txtDx";
             this.txtDx.Size = new System.Drawing.Size(100, 20);
             this.txtDx.TabIndex = 5;
+            this.txtDx.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // txtDy
             // 
@@ -134,6 +135,7 @@ namespace lab4
             this.txtDy.Name = "txtDy";
             this.txtDy.Size = new System.Drawing.Size(100, 20);
             this.txtDy.TabIndex = 6;
+            this.txtDy.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // txtAngle
             // 
@@ -141,6 +143,7 @@ namespace lab4
             this.txtAngle.Name = "txtAngle";
             this.txtAngle.Size = new System.Drawing.Size(100, 20);
             this.txtAngle.TabIndex = 7;
+            this.txtAngle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // txtScaleX
             // 
@@ -148,6 +151,7 @@ namespace lab4
             this.txtScaleX.Name = "txtScaleX";
             this.txtScaleX.Size = new System.Drawing.Size(100, 20);
             this.txtScaleX.TabIndex = 8;
+            this.txtScaleX.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // txtScaleY
             // 
@@ -155,6 +159,7 @@ namespace lab4
             this.txtScaleY.Name = "txtScaleY";
             this.txtScaleY.Size = new System.Drawing.Size(100, 20);
             this.txtScaleY.TabIndex = 9;
+            this.txtScaleY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // lblDx
             // 
@@ -202,7 +207,7 @@ namespace lab4
             this.userXTextBox.Name = "userXTextBox";
             this.userXTextBox.Size = new System.Drawing.Size(100, 20);
             this.userXTextBox.TabIndex = 15;
-            this.userXTextBox.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.userXTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // label1
             // 
@@ -212,7 +217,6 @@ namespace lab4
             this.label1.Size = new System.Drawing.Size(64, 13);
             this.label1.TabIndex = 16;
             this.label1.Text = "userX Input:";
-            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // label2
             // 
@@ -229,6 +233,7 @@ namespace lab4
             this.userYTextBox.Name = "userYTextBox";
             this.userYTextBox.Size = new System.Drawing.Size(100, 20);
             this.userYTextBox.TabIndex = 18;
+            this.userYTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // label3
             // 
@@ -258,6 +263,7 @@ namespace lab4
             // 
             // vertexList
             // 
+            this.vertexList.Enabled = false;
             this.vertexList.FormattingEnabled = true;
             this.vertexList.Location = new System.Drawing.Point(172, 426);
             this.vertexList.Name = "vertexList";
@@ -288,6 +294,7 @@ namespace lab4
             this.EdgePoint1Value.Name = "EdgePoint1Value";
             this.EdgePoint1Value.Size = new System.Drawing.Size(100, 20);
             this.EdgePoint1Value.TabIndex = 25;
+            this.EdgePoint1Value.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // EdgePoint2Value
             // 
@@ -295,6 +302,7 @@ namespace lab4
             this.EdgePoint2Value.Name = "EdgePoint2Value";
             this.EdgePoint2Value.Size = new System.Drawing.Size(100, 20);
             this.EdgePoint2Value.TabIndex = 26;
+            this.EdgePoint2Value.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // label4
             // 

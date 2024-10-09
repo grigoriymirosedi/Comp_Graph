@@ -121,6 +121,9 @@ namespace lab4
                     else
                         LeftRightPosition.Text = "Пара точек не является ребром";
                 }
+            } else
+            {
+                e.Graphics.Clear(Color.White);
             }
             if (currentPolygon.Vertices.Count > 1)
             {
@@ -140,6 +143,10 @@ namespace lab4
         {
             currentPolygon = new Polygon();
             vertexList.SelectedItem = null;
+
+            userXTextBox.Text = "";
+            userYTextBox.Text = "";
+
             vertexList.Items.Clear();
             pictureBox.Invalidate(); // Обновление PictureBox
         }
@@ -154,15 +161,17 @@ namespace lab4
             currentPolygon.ApplyTransformation(AffineTransform.Scaling(scaleX, scaleY, center));
             pictureBox.Invalidate(); // Обновление PictureBox
         }
-
-        private void label1_Click(object sender, EventArgs e)
+        private void userXTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar) && (e.KeyChar != '.'))
+            {
+                e.Handled = true;
+            }
 
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
+            if ((e.KeyChar == '.') && ((sender as TextBox).Text.IndexOf('.') > -1))
+            {
+                e.Handled = true;
+            }
         }
     }
     public class Point2D
