@@ -67,13 +67,13 @@ button = plt.Button(save_button, 'Save Image')
 # Функция сохранения изображения
 def save_image(event):
     # Получаем значения ползунков
-    h = h_slider.val * (180 / 110)
-    s = s_slider.val / 110
-    v = v_slider.val / 110
+    h = h_slider.val #/ 180  # Преобразование значения ползунка в диапазон 0-180
+    s = s_slider.val / 50  # Преобразование в диапазон 0.0-1.0 для насыщенности
+    v = v_slider.val / 50  # Преобразование в диапазон 0.0-1.0 для яркости
 
     # Изменение изображения HSV по ползункам
     hsv_mod = hsv_image.copy()
-    hsv_mod[:, :, 0] = (hsv_mod[:, :, 0].astype(np.float32) + h).astype(np.uint8) % 180
+    hsv_mod[:, :, 0] = (hsv_mod[:, :, 0].astype(np.float32) + h).astype(np.uint8)# % 180
     hsv_mod[:, :, 1] = np.clip(hsv_mod[:, :, 1].astype(np.float32) * s, 0, 255).astype(np.uint8)
     hsv_mod[:, :, 2] = np.clip(hsv_mod[:, :, 2].astype(np.float32) * v, 0, 255).astype(np.uint8)
 
