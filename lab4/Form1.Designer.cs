@@ -73,6 +73,9 @@ namespace lab4
             this.EdgePoint2Value = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.LeftRightPosition = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.intersectionLabel = new System.Windows.Forms.Label();
+            this.userInputEdgeCheckBox = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
@@ -84,6 +87,7 @@ namespace lab4
             this.pictureBox.Size = new System.Drawing.Size(500, 400);
             this.pictureBox.TabIndex = 0;
             this.pictureBox.TabStop = false;
+            this.pictureBox.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseDoubleClick);
             // 
             // btnTranslate
             // 
@@ -263,7 +267,6 @@ namespace lab4
             // 
             // vertexList
             // 
-            this.vertexList.Enabled = false;
             this.vertexList.FormattingEnabled = true;
             this.vertexList.Location = new System.Drawing.Point(172, 426);
             this.vertexList.Name = "vertexList";
@@ -321,9 +324,41 @@ namespace lab4
             this.LeftRightPosition.Size = new System.Drawing.Size(0, 13);
             this.LeftRightPosition.TabIndex = 28;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(489, 501);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(169, 13);
+            this.label5.TabIndex = 29;
+            this.label5.Text = "Точка пересечения двух рёбер: ";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
+            // 
+            // intersectionLabel
+            // 
+            this.intersectionLabel.AutoSize = true;
+            this.intersectionLabel.Location = new System.Drawing.Point(677, 501);
+            this.intersectionLabel.Name = "intersectionLabel";
+            this.intersectionLabel.Size = new System.Drawing.Size(0, 13);
+            this.intersectionLabel.TabIndex = 30;
+            this.intersectionLabel.Click += new System.EventHandler(this.label6_Click);
+            // 
+            // userInputEdgeCheckBox
+            // 
+            this.userInputEdgeCheckBox.AutoSize = true;
+            this.userInputEdgeCheckBox.Location = new System.Drawing.Point(172, 480);
+            this.userInputEdgeCheckBox.Name = "userInputEdgeCheckBox";
+            this.userInputEdgeCheckBox.Size = new System.Drawing.Size(127, 17);
+            this.userInputEdgeCheckBox.TabIndex = 31;
+            this.userInputEdgeCheckBox.Text = "Режим ввода ребра";
+            this.userInputEdgeCheckBox.UseVisualStyleBackColor = true;
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(984, 761);
+            this.Controls.Add(this.userInputEdgeCheckBox);
+            this.Controls.Add(this.intersectionLabel);
+            this.Controls.Add(this.label5);
             this.Controls.Add(this.LeftRightPosition);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.EdgePoint2Value);
@@ -376,6 +411,9 @@ namespace lab4
         private System.Windows.Forms.TextBox EdgePoint2Value;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label LeftRightPosition;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label intersectionLabel;
+        private System.Windows.Forms.CheckBox userInputEdgeCheckBox;
     }
 }
 

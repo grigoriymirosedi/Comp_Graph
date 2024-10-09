@@ -14,7 +14,8 @@ namespace lab4
     {
         private Polygon currentPolygon; // Храним текущий полигон
         private bool isDrawing; // Флаг для режима рисования полигона
-
+        private List<Point2D> userInputEdge = new List<Point2D>();
+        private bool isClearButtonPressed = false;
         public Form1()
         {
             InitializeComponent();
@@ -76,25 +77,54 @@ namespace lab4
         }
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
-            if(e.Button == MouseButtons.Right)
+            if(userInputEdgeCheckBox.Checked && (e.Button == MouseButtons.Left))
             {
-                
-                userXTextBox.Text = e.X.ToString();
-                userYTextBox.Text = e.Y.ToString();
+                if (userInputEdge.Count < 2)
+                {
+                userInputEdge.Add(new Point2D(e.X, e.Y));
+                }
+                else
+                {
+                    userInputEdge[0] = userInputEdge[1];
+                    userInputEdge[1] = new Point2D(e.X, e.Y);
+                }
                 pictureBox.Invalidate();
-            }
-            else if (isDrawing)
+            } else
             {
-                Point2D point = new Point2D(e.X, e.Y);
-                currentPolygon.AddVertex(point);
-                vertexList.Items.Add(e.X.ToString() + " " + e.Y.ToString() + "\n");
-                vertexList.SelectedItem = e.X.ToString() + " " + e.Y.ToString() + "\n";
-                pictureBox.Invalidate(); // Обновляем PictureBox для перерисовки
+                if (e.Button == MouseButtons.Right)
+                {
+
+                    userXTextBox.Text = e.X.ToString();
+                    userYTextBox.Text = e.Y.ToString();
+                    pictureBox.Invalidate();
+                }
+                else if (isDrawing)
+                {
+                    Point2D point = new Point2D(e.X, e.Y);
+                    currentPolygon.AddVertex(point);
+                    vertexList.Items.Add(e.X.ToString() + " " + e.Y.ToString() + "\n");
+                    vertexList.SelectedItem = e.X.ToString() + " " + e.Y.ToString() + "\n";
+                    pictureBox.Invalidate(); // Обновляем PictureBox для перерисовки
+                }
             }
         }
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
+            if(userInputEdge.Count == 2)
+            {
+                e.Graphics.DrawLine(
+                    new Pen(Color.Green, 2),
+                    (float)userInputEdge[0].X,
+                    (float)userInputEdge[0].Y,
+                    (float)userInputEdge[1].X,
+                    (float)userInputEdge[1].Y
+                );
+                var a = new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]));
+                var b = new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1]));
+                var intersection = Geometry.FindIntersection(userInputEdge[0], userInputEdge[1], a, b);
+                intersectionLabel.Text = (intersection == null) ? "" : (int)intersection.X + " " + (int)intersection.Y; 
+            }
             if (userXTextBox.Text != "" && userYTextBox.Text != "")
             {
                 isPointInPolygon.Text = IsPointInPolygon(
@@ -121,9 +151,11 @@ namespace lab4
                     else
                         LeftRightPosition.Text = "Пара точек не является ребром";
                 }
-            } else
+            } 
+            if(isClearButtonPressed)
             {
                 e.Graphics.Clear(Color.White);
+                isClearButtonPressed = false;
             }
             if (currentPolygon.Vertices.Count > 1)
             {
@@ -141,6 +173,8 @@ namespace lab4
         }
         private void btnClear_Click(object sender, EventArgs e)
         {
+            isClearButtonPressed = true;
+
             currentPolygon = new Polygon();
             vertexList.SelectedItem = null;
 
@@ -172,6 +206,21 @@ namespace lab4
             {
                 e.Handled = true;
             }
+        }
+
+        private void pictureBox_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+         
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+
         }
     }
     public class Point2D
