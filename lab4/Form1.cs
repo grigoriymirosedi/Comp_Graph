@@ -120,10 +120,25 @@ namespace lab4
                     (float)userInputEdge[1].X,
                     (float)userInputEdge[1].Y
                 );
-                var a = new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]));
-                var b = new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1]));
-                var intersection = Geometry.FindIntersection(userInputEdge[0], userInputEdge[1], a, b);
-                intersectionLabel.Text = (intersection == null) ? "" : (int)intersection.X + " " + (int)intersection.Y; 
+                if (EdgePoint1Value.Text.Split(' ').Count() == 2 && EdgePoint2Value.Text.Split(' ').Count() == 2)
+                {
+                    var a = new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]));
+                    var b = new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1]));
+                    var inda = currentPolygon.Vertices.FindIndex(x => x.Equals(a));
+                    var indb = currentPolygon.Vertices.FindIndex(x => x.Equals(b));
+                    var cnt = Math.Abs(inda - indb) == 1;
+                    if (cnt)
+                    {
+                        var intersection = Geometry.FindIntersection(userInputEdge[0], userInputEdge[1], a, b);
+                        intersectionLabel.Text = (intersection == null) ? "" : (int)intersection.X + " " + (int)intersection.Y;
+                    } else
+                    {
+                        intersectionLabel.Text = "Пара точек не является ребром";
+                    }
+                }else
+                {
+                    intersectionLabel.Text = "Некорректные координаты";
+                }
             }
             if (userXTextBox.Text != "" && userYTextBox.Text != "")
             {
@@ -137,7 +152,7 @@ namespace lab4
                     float.Parse(userYTextBox.Text),
                     1,1
                 );
-                if (EdgePoint1Value.Text != "" && EdgePoint2Value.Text != "" /*&& Math.Abs(currentPolygon.Vertices.IndexOf(new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]))) - currentPolygon.Vertices.IndexOf(new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1])))) == 1*/)
+                if (EdgePoint1Value.Text.Split(' ').Count() == 2 && EdgePoint2Value.Text.Split(' ').Count() == 2 /*&& Math.Abs(currentPolygon.Vertices.IndexOf(new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]))) - currentPolygon.Vertices.IndexOf(new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1])))) == 1*/)
                 {
                     var p = new Point2D(double.Parse(userXTextBox.Text),
                 double.Parse(userYTextBox.Text));
@@ -150,6 +165,9 @@ namespace lab4
                         LeftRightPosition.Text = ClassifyPoint(p, b, a);
                     else
                         LeftRightPosition.Text = "Пара точек не является ребром";
+                }else
+                {
+                    LeftRightPosition.Text = "Некорректные координаты";
                 }
             } 
             if(isClearButtonPressed)
