@@ -23,7 +23,7 @@ namespace cg_lab_3_1_b
         }
 
         // Заливка области изображением
-        private void Fill(int x, int y, Color targetColor)
+        /*private void Fill(int x, int y, Color targetColor)
         {
             if (x < 0 || x >= canvas.Width || y < 0 || y >= canvas.Height) return; // Проверка границ холста
 
@@ -57,6 +57,54 @@ namespace cg_lab_3_1_b
 
             pictureBox1.Image = canvas; // Обновляем изображение в PictureBox
             pictureBox1.Invalidate(); // Перерисовываем PictureBox
+        }*/
+        private void Fill(int x, int y, Color targetColor)
+        {
+            if (x < 0 || x >= canvas.Width || y < 0 || y >= canvas.Height)
+                return;
+
+            if (canvas.GetPixel(x, y) != targetColor)
+                return;
+
+            int x_left = x;
+            int x_right = x;
+
+            while (x_left > 0 && canvas.GetPixel(x_left - 1, y) == targetColor)
+            {
+                x_left--;
+            }
+
+            while (x_right < canvas.Width - 1 && canvas.GetPixel(x_right + 1, y) == targetColor)
+            {
+                x_right++;
+            }
+
+            int patternCenterX = fillPattern.Width / 2;
+            int patternCenterY = fillPattern.Height / 2;
+
+            for (int i = x_left; i <= x_right; i++)
+            {
+                int patternX = (i - x + patternCenterX) % fillPattern.Width;
+                int patternY = (y - patternCenterY) % fillPattern.Height;
+
+                if (patternX < 0) patternX += fillPattern.Width;
+                if (patternY < 0) patternY += fillPattern.Height;
+
+                Color fillColor = fillPattern.GetPixel(patternX % fillPattern.Width, patternY % fillPattern.Height);
+                canvas.SetPixel(i, y, fillColor);
+            }
+
+            for (int i = x_left; i <= x_right; i++)
+            {
+                if (y > 0 && canvas.GetPixel(i, y - 1) == targetColor)
+                {
+                    Fill(i, y - 1,targetColor);
+                }
+                if (y < canvas.Height - 1 && canvas.GetPixel(i, y + 1) == targetColor)
+                {
+                    Fill(i, y + 1,targetColor);
+                }
+            }
         }
 
         // Загрузка изображения для заливки
@@ -150,6 +198,7 @@ namespace cg_lab_3_1_b
                 if (clickedColor != boundaryColor && clickedColor != Color.White)
                 {
                     Fill(e.X, e.Y, clickedColor);
+                    pictureBox1.Invalidate();
                 }
                 else
                 {
@@ -159,6 +208,12 @@ namespace cg_lab_3_1_b
         }
 
         private void Form1_ClientSizeChanged(object sender, EventArgs e)
+        {
+            canvas = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            pictureBox1.Image = canvas;
+        }
+
+        private void ClearButton_Click(object sender, EventArgs e)
         {
             canvas = new Bitmap(pictureBox1.Width, pictureBox1.Height);
             pictureBox1.Image = canvas;
