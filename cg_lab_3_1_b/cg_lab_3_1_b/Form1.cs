@@ -58,7 +58,7 @@ namespace cg_lab_3_1_b
             pictureBox1.Image = canvas; // Обновляем изображение в PictureBox
             pictureBox1.Invalidate(); // Перерисовываем PictureBox
         }*/
-        private void Fill(int x, int y, Color targetColor)
+        private void Fill(int x, int y, Color targetColor, int startX, int startY)
         {
             if (x < 0 || x >= canvas.Width || y < 0 || y >= canvas.Height)
                 return;
@@ -69,6 +69,7 @@ namespace cg_lab_3_1_b
             int x_left = x;
             int x_right = x;
 
+            // Найти границы области заливки в текущей строке
             while (x_left > 0 && canvas.GetPixel(x_left - 1, y) == targetColor)
             {
                 x_left--;
@@ -82,30 +83,38 @@ namespace cg_lab_3_1_b
             int patternCenterX = fillPattern.Width / 2;
             int patternCenterY = fillPattern.Height / 2;
 
+            // Пройтись по всей ширине найденной области
             for (int i = x_left; i <= x_right; i++)
             {
-                int patternX = (i - x + patternCenterX) % fillPattern.Width;
-                int patternY = (y - patternCenterY) % fillPattern.Height;
+                // Рассчитать координаты паттерна относительно начальной точки заливки (startX, startY)
+                int patternX = (i - startX + patternCenterX) % fillPattern.Width;
+                int patternY = (y - startY + patternCenterY) % fillPattern.Height;
 
+                // Корректируем отрицательные значения
                 if (patternX < 0) patternX += fillPattern.Width;
                 if (patternY < 0) patternY += fillPattern.Height;
 
+                // Получаем цвет паттерна
                 Color fillColor = fillPattern.GetPixel(patternX % fillPattern.Width, patternY % fillPattern.Height);
+                // Устанавливаем цвет на холст
                 canvas.SetPixel(i, y, fillColor);
             }
 
+            // Рекурсивная заливка на строках выше и ниже
             for (int i = x_left; i <= x_right; i++)
             {
                 if (y > 0 && canvas.GetPixel(i, y - 1) == targetColor)
                 {
-                    Fill(i, y - 1,targetColor);
+                    Fill(i, y - 1, targetColor, startX, startY);
                 }
                 if (y < canvas.Height - 1 && canvas.GetPixel(i, y + 1) == targetColor)
                 {
-                    Fill(i, y + 1,targetColor);
+                    Fill(i, y + 1, targetColor, startX, startY);
                 }
             }
         }
+
+
 
         // Загрузка изображения для заливки
         private void LoadFillPattern()
@@ -197,7 +206,7 @@ namespace cg_lab_3_1_b
                 // Если кликнутый цвет не является цветом границы и не является белым (цвет фона), запускаем заливку
                 if (clickedColor != boundaryColor && clickedColor != Color.White)
                 {
-                    Fill(e.X, e.Y, clickedColor);
+                    Fill(e.X, e.Y, clickedColor, e.X, e.Y);
                     pictureBox1.Invalidate();
                 }
                 else
