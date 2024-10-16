@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace lab4
     public partial class Form1 : Form
     {
         private Polygon currentPolygon; // Храним текущий полигон
+        private Polygon currentPolygonRound;
         private bool isDrawing; // Флаг для режима рисования полигона
         private List<Point2D> userInputEdge = new List<Point2D>();
         private bool isClearButtonPressed = false;
@@ -20,6 +22,7 @@ namespace lab4
         {
             InitializeComponent();
             currentPolygon = new Polygon();
+            currentPolygonRound = new Polygon();
             isDrawing = true;
         }
 
@@ -63,6 +66,7 @@ namespace lab4
             double dx = double.Parse(txtDx.Text);
             double dy = double.Parse(txtDy.Text);
             currentPolygon.ApplyTransformation(AffineTransform.Translation(dx, dy));
+            updateVertices();
             pictureBox.Invalidate(); // Перерисовка
         }
 
@@ -73,7 +77,21 @@ namespace lab4
             var userYValue = userYTextBox.Text;
             Point2D center = (userXValue != "" && userYValue != "") ? new Point2D(double.Parse(userXValue), double.Parse(userYValue)) : currentPolygon.GetCentroid(); // Центр полигона
             currentPolygon.ApplyTransformation(AffineTransform.Rotation(angle, center));
+            updateVertices();
             pictureBox.Invalidate(); // Обновление PictureBox
+        }
+        private void updateVertices()
+        {
+            vertexList.Items.Clear();
+            for (int i = 0; i < currentPolygonRound.Vertices.Count; i++)
+            {
+                currentPolygonRound.Vertices[i] = new Point2D(Math.Round(currentPolygon.Vertices[i].X), Math.Round(currentPolygon.Vertices[i].Y));
+            }
+            foreach (var vert in currentPolygonRound.Vertices)
+            {
+                vertexList.Items.Add(vert.X.ToString() + " " + vert.Y.ToString() + "\n");
+                vertexList.SelectedItem = (vert.X.ToString() + " " + vert.Y.ToString() + "\n");
+            }
         }
         private void pictureBox_MouseClick(object sender, MouseEventArgs e)
         {
@@ -102,6 +120,8 @@ namespace lab4
                 {
                     Point2D point = new Point2D(e.X, e.Y);
                     currentPolygon.AddVertex(point);
+                    Point2D pointRound = new Point2D(Math.Round((double)e.X), Math.Round((double)e.Y));
+                    currentPolygonRound.AddVertex(pointRound);
                     vertexList.Items.Add(e.X.ToString() + " " + e.Y.ToString() + "\n");
                     vertexList.SelectedItem = e.X.ToString() + " " + e.Y.ToString() + "\n";
                     pictureBox.Invalidate(); // Обновляем PictureBox для перерисовки
@@ -124,8 +144,8 @@ namespace lab4
                 {
                     var a = new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]));
                     var b = new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1]));
-                    var inda = currentPolygon.Vertices.FindIndex(x => x.Equals(a));
-                    var indb = currentPolygon.Vertices.FindIndex(x => x.Equals(b));
+                    var inda = currentPolygonRound.Vertices.FindIndex(x => x.Equals(a));
+                    var indb = currentPolygonRound.Vertices.FindIndex(x => x.Equals(b));
                     var cnt = Math.Abs(inda - indb) == 1;
                     if (cnt)
                     {
@@ -158,8 +178,8 @@ namespace lab4
                 double.Parse(userYTextBox.Text));
                     var a = new Point2D(double.Parse(EdgePoint1Value.Text.Split(' ').First()), double.Parse(EdgePoint1Value.Text.Split(' ')[1]));
                     var b = new Point2D(double.Parse(EdgePoint2Value.Text.Split(' ').First()), double.Parse(EdgePoint2Value.Text.Split(' ')[1]));
-                    var inda = currentPolygon.Vertices.FindIndex(x => x.Equals(a));
-                    var indb = currentPolygon.Vertices.FindIndex(x => x.Equals(b));
+                    var inda = currentPolygonRound.Vertices.FindIndex(x => x.Equals(a));
+                    var indb = currentPolygonRound.Vertices.FindIndex(x => x.Equals(b));
                     var cnt = Math.Abs(inda - indb) == 1;
                     if (cnt)
                         LeftRightPosition.Text = ClassifyPoint(p, b, a);
@@ -194,6 +214,7 @@ namespace lab4
             isClearButtonPressed = true;
 
             currentPolygon = new Polygon();
+            currentPolygonRound = new Polygon();
             vertexList.SelectedItem = null;
 
             userXTextBox.Text = "";
@@ -211,6 +232,7 @@ namespace lab4
             var userYValue = userYTextBox.Text;
             Point2D center = (userXValue != "" && userYValue != "") ? new Point2D(double.Parse(userXValue), double.Parse(userYValue)) : currentPolygon.GetCentroid(); // Центр полигона
             currentPolygon.ApplyTransformation(AffineTransform.Scaling(scaleX, scaleY, center));
+            updateVertices();
             pictureBox.Invalidate(); // Обновление PictureBox
         }
         private void userXTextBox_KeyPress(object sender, KeyPressEventArgs e)
