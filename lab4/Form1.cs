@@ -220,6 +220,8 @@ namespace lab4
             userXTextBox.Text = "";
             userYTextBox.Text = "";
 
+            userInputEdge.Clear();
+
             vertexList.Items.Clear();
             pictureBox.Invalidate(); // Обновление PictureBox
         }
