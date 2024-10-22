@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{35CA5F6B-2512-4ABA-AFD2-1B0953F23D0E}</ProjectGuid>
+    <ProjectGuid>{789F9E0D-269B-43BF-82AB-ECDDDE98E45A}</ProjectGuid>
     <OutputType>WinExe</OutputType>
-    <RootNamespace>lab4</RootNamespace>
-    <AssemblyName>lab4</AssemblyName>
-    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+    <RootNamespace>Lab5</RootNamespace>
+    <AssemblyName>Lab5</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -52,8 +53,27 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="LSystem.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Task1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Task1.Designer.cs">
+      <DependentUpon>Task1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Task2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Task2.Designer.cs">
+      <DependentUpon>Task2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Task3.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Task3.Designer.cs">
+      <DependentUpon>Task3.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
@@ -65,7 +85,17 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Task1.resx">
+      <DependentUpon>Task1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Task2.resx">
+      <DependentUpon>Task2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Task3.resx">
+      <DependentUpon>Task3.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
