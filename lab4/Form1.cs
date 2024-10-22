@@ -37,13 +37,12 @@ namespace lab4
             bool inside = false;
             int count = polygon.Vertices.Count;
 
-            for (int i = 0, j = count - 1; i < count; j = i++)
+            for (int i = 0, j = count - 1; i < count; j = i++) // пробегаемся по всем соседним вершинам
             {
                 Point2D vi = polygon.Vertices[i];
                 Point2D vj = polygon.Vertices[j];
-
-                if ((vi.Y > point.Y) != (vj.Y > point.Y) &&
-                    (point.X < (vj.X - vi.X) * (point.Y - vi.Y) / (vj.Y - vi.Y) + vi.X))
+                if ((vi.Y > point.Y) != (vj.Y > point.Y) && // проверяем, что vi и vj находятся по разные стороны от горизонтальной линии, проходящей через point
+                    (point.X < (vj.X - vi.X) * (point.Y - vi.Y) / (vj.Y - vi.Y) + vi.X)) // проверка, находится ли point слева от линии, соед. vi и vj
                 {
                     inside = !inside;
                 }
