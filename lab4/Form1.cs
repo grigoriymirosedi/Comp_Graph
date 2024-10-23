@@ -37,17 +37,56 @@ namespace lab4
             bool inside = false;
             int count = polygon.Vertices.Count;
 
+            foreach(var pnt in polygon.Vertices) {
+                if(pnt == point)
+                {
+                    return true;
+                }
+            }
+
             for (int i = 0, j = count - 1; i < count; j = i++) // пробегаемся по всем соседним вершинам
             {
                 Point2D vi = polygon.Vertices[i];
                 Point2D vj = polygon.Vertices[j];
-                if ((vi.Y > point.Y) != (vj.Y > point.Y) && // проверяем, что vi и vj находятся по разные стороны от горизонтальной линии, проходящей через point
-                    (point.X < (vj.X - vi.X) * (point.Y - vi.Y) / (vj.Y - vi.Y) + vi.X)) // проверка, находится ли point слева от линии, соед. vi и vj
+
+                // Проверяем, находится ли точка на ребре (vi, vj)
+                if (IsPointOnLineSegment(point, vi, vj))
                 {
-                    inside = !inside;
+                    return true; // Точка на границе
+                }
+
+                if ((vi.Y > point.Y) != (vj.Y > point.Y)) // vi и vj по разные стороны горизонтальной линии через point
+                {
+                    double intersectionX = (vj.X - vi.X) * (point.Y - vi.Y) / (vj.Y - vi.Y) + vi.X;
+                    if (point.X < intersectionX)
+                    {
+                        inside = !inside;
+                    }
                 }
             }
             return inside;
+        }
+
+        // Метод для проверки, лежит ли точка на отрезке (vi, vj)
+        private static bool IsPointOnLineSegment(Point2D point, Point2D vi, Point2D vj)
+        {
+            // Проверяем, что point лежит на линии (vi, vj) и находится между vi и vj
+            double crossProduct = (point.Y - vi.Y) * (vj.X - vi.X) - (point.X - vi.X) * (vj.Y - vi.Y);
+
+            // Если crossProduct не 0, то точка не лежит на линии
+            if (Math.Abs(crossProduct) > double.Epsilon)
+            {
+                return false;
+            }
+
+            // Проверяем, что точка находится в пределах отрезка
+            double dotProduct = (point.X - vi.X) * (point.X - vj.X) + (point.Y - vi.Y) * (point.Y - vj.Y);
+            if (dotProduct > 0)
+            {
+                return false;
+            }
+
+            return true;
         }
         public static string ClassifyPoint(Point2D p, Point2D a, Point2D b)
         {
@@ -130,6 +169,15 @@ namespace lab4
 
         private void pictureBox_Paint(object sender, PaintEventArgs e)
         {
+            if(userXTextBox.Text != "" && userYTextBox.Text != "") {
+                e.Graphics.DrawRectangle(
+                    new Pen(Color.DimGray, 3),
+                    float.Parse(userXTextBox.Text),
+                    float.Parse(userYTextBox.Text),
+                    2,
+                    2
+                );
+            }
             if(userInputEdge.Count == 2)
             {
                 e.Graphics.DrawLine(
@@ -149,6 +197,7 @@ namespace lab4
                     if (cnt)
                     {
                         var intersection = Geometry.FindIntersection(userInputEdge[0], userInputEdge[1], a, b);
+                        e.Graphics.DrawRectangle(new Pen(Color.Purple, 3), (float)intersection.X, (float)intersection.Y, 2, 2);
                         intersectionLabel.Text = (intersection == null) ? "" : (int)intersection.X + " " + (int)intersection.Y;
                     } else
                     {
@@ -262,6 +311,11 @@ namespace lab4
         private void label6_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void userXTextBox_TextChanged(object sender, EventArgs e)
+        {
+            pictureBox.Invalidate();
         }
     }
     public class Point2D

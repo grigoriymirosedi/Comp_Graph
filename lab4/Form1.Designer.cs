@@ -129,7 +129,7 @@ namespace lab4
             // 
             this.txtDx.Location = new System.Drawing.Point(620, 20);
             this.txtDx.Name = "txtDx";
-            this.txtDx.Size = new System.Drawing.Size(100, 20);
+            this.txtDx.Size = new System.Drawing.Size(100, 22);
             this.txtDx.TabIndex = 5;
             this.txtDx.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
@@ -137,7 +137,7 @@ namespace lab4
             // 
             this.txtDy.Location = new System.Drawing.Point(620, 60);
             this.txtDy.Name = "txtDy";
-            this.txtDy.Size = new System.Drawing.Size(100, 20);
+            this.txtDy.Size = new System.Drawing.Size(100, 22);
             this.txtDy.TabIndex = 6;
             this.txtDy.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
@@ -145,7 +145,7 @@ namespace lab4
             // 
             this.txtAngle.Location = new System.Drawing.Point(620, 100);
             this.txtAngle.Name = "txtAngle";
-            this.txtAngle.Size = new System.Drawing.Size(100, 20);
+            this.txtAngle.Size = new System.Drawing.Size(100, 22);
             this.txtAngle.TabIndex = 7;
             this.txtAngle.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
@@ -153,7 +153,7 @@ namespace lab4
             // 
             this.txtScaleX.Location = new System.Drawing.Point(620, 140);
             this.txtScaleX.Name = "txtScaleX";
-            this.txtScaleX.Size = new System.Drawing.Size(100, 20);
+            this.txtScaleX.Size = new System.Drawing.Size(100, 22);
             this.txtScaleX.TabIndex = 8;
             this.txtScaleX.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
@@ -161,7 +161,7 @@ namespace lab4
             // 
             this.txtScaleY.Location = new System.Drawing.Point(620, 180);
             this.txtScaleY.Name = "txtScaleY";
-            this.txtScaleY.Size = new System.Drawing.Size(100, 20);
+            this.txtScaleY.Size = new System.Drawing.Size(100, 22);
             this.txtScaleY.TabIndex = 9;
             this.txtScaleY.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
@@ -209,8 +209,9 @@ namespace lab4
             // 
             this.userXTextBox.Location = new System.Drawing.Point(620, 217);
             this.userXTextBox.Name = "userXTextBox";
-            this.userXTextBox.Size = new System.Drawing.Size(100, 20);
+            this.userXTextBox.Size = new System.Drawing.Size(100, 22);
             this.userXTextBox.TabIndex = 15;
+            this.userXTextBox.TextChanged += new System.EventHandler(this.userXTextBox_TextChanged);
             this.userXTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // label1
@@ -218,7 +219,7 @@ namespace lab4
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(553, 217);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 13);
+            this.label1.Size = new System.Drawing.Size(75, 16);
             this.label1.TabIndex = 16;
             this.label1.Text = "userX Input:";
             // 
@@ -227,7 +228,7 @@ namespace lab4
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(553, 253);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(63, 13);
+            this.label2.Size = new System.Drawing.Size(76, 16);
             this.label2.TabIndex = 17;
             this.label2.Text = "userY input:";
             // 
@@ -235,8 +236,9 @@ namespace lab4
             // 
             this.userYTextBox.Location = new System.Drawing.Point(620, 250);
             this.userYTextBox.Name = "userYTextBox";
-            this.userYTextBox.Size = new System.Drawing.Size(100, 20);
+            this.userYTextBox.Size = new System.Drawing.Size(100, 22);
             this.userYTextBox.TabIndex = 18;
+            this.userYTextBox.TextChanged += new System.EventHandler(this.userXTextBox_TextChanged);
             this.userYTextBox.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
             // label3
@@ -244,7 +246,7 @@ namespace lab4
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(518, 346);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(200, 13);
+            this.label3.Size = new System.Drawing.Size(257, 16);
             this.label3.TabIndex = 19;
             this.label3.Text = "Находится ли точка внутри полигона: ";
             // 
@@ -253,7 +255,7 @@ namespace lab4
             this.isPointInPolygon.AutoSize = true;
             this.isPointInPolygon.Location = new System.Drawing.Point(712, 346);
             this.isPointInPolygon.Name = "isPointInPolygon";
-            this.isPointInPolygon.Size = new System.Drawing.Size(0, 13);
+            this.isPointInPolygon.Size = new System.Drawing.Size(0, 16);
             this.isPointInPolygon.TabIndex = 20;
             // 
             // vertexListLabel
@@ -261,7 +263,7 @@ namespace lab4
             this.vertexListLabel.AutoSize = true;
             this.vertexListLabel.Location = new System.Drawing.Point(9, 426);
             this.vertexListLabel.Name = "vertexListLabel";
-            this.vertexListLabel.Size = new System.Drawing.Size(157, 13);
+            this.vertexListLabel.Size = new System.Drawing.Size(197, 16);
             this.vertexListLabel.TabIndex = 21;
             this.vertexListLabel.Text = "координаты текущих вершин:";
             // 
@@ -270,7 +272,7 @@ namespace lab4
             this.vertexList.FormattingEnabled = true;
             this.vertexList.Location = new System.Drawing.Point(172, 426);
             this.vertexList.Name = "vertexList";
-            this.vertexList.Size = new System.Drawing.Size(121, 21);
+            this.vertexList.Size = new System.Drawing.Size(121, 24);
             this.vertexList.TabIndex = 22;
             // 
             // EdgePoint1Label
@@ -278,7 +280,7 @@ namespace lab4
             this.EdgePoint1Label.AutoSize = true;
             this.EdgePoint1Label.Location = new System.Drawing.Point(548, 405);
             this.EdgePoint1Label.Name = "EdgePoint1Label";
-            this.EdgePoint1Label.Size = new System.Drawing.Size(110, 13);
+            this.EdgePoint1Label.Size = new System.Drawing.Size(141, 16);
             this.EdgePoint1Label.TabIndex = 23;
             this.EdgePoint1Label.Text = "первая точка ребра:";
             // 
@@ -287,7 +289,7 @@ namespace lab4
             this.EdgePoint2Label.AutoSize = true;
             this.EdgePoint2Label.Location = new System.Drawing.Point(548, 434);
             this.EdgePoint2Label.Name = "EdgePoint2Label";
-            this.EdgePoint2Label.Size = new System.Drawing.Size(109, 13);
+            this.EdgePoint2Label.Size = new System.Drawing.Size(140, 16);
             this.EdgePoint2Label.TabIndex = 24;
             this.EdgePoint2Label.Text = "вторая точка ребра:";
             // 
@@ -295,7 +297,7 @@ namespace lab4
             // 
             this.EdgePoint1Value.Location = new System.Drawing.Point(675, 402);
             this.EdgePoint1Value.Name = "EdgePoint1Value";
-            this.EdgePoint1Value.Size = new System.Drawing.Size(100, 20);
+            this.EdgePoint1Value.Size = new System.Drawing.Size(100, 22);
             this.EdgePoint1Value.TabIndex = 25;
             this.EdgePoint1Value.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
@@ -303,7 +305,7 @@ namespace lab4
             // 
             this.EdgePoint2Value.Location = new System.Drawing.Point(675, 434);
             this.EdgePoint2Value.Name = "EdgePoint2Value";
-            this.EdgePoint2Value.Size = new System.Drawing.Size(100, 20);
+            this.EdgePoint2Value.Size = new System.Drawing.Size(100, 22);
             this.EdgePoint2Value.TabIndex = 26;
             this.EdgePoint2Value.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.userXTextBox_KeyPress);
             // 
@@ -312,7 +314,7 @@ namespace lab4
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(453, 468);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(205, 13);
+            this.label4.Size = new System.Drawing.Size(264, 16);
             this.label4.TabIndex = 27;
             this.label4.Text = "Положение точки относительно ребра:";
             // 
@@ -321,7 +323,7 @@ namespace lab4
             this.LeftRightPosition.AutoSize = true;
             this.LeftRightPosition.Location = new System.Drawing.Point(675, 468);
             this.LeftRightPosition.Name = "LeftRightPosition";
-            this.LeftRightPosition.Size = new System.Drawing.Size(0, 13);
+            this.LeftRightPosition.Size = new System.Drawing.Size(0, 16);
             this.LeftRightPosition.TabIndex = 28;
             // 
             // label5
@@ -329,7 +331,7 @@ namespace lab4
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(489, 501);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(169, 13);
+            this.label5.Size = new System.Drawing.Size(218, 16);
             this.label5.TabIndex = 29;
             this.label5.Text = "Точка пересечения двух рёбер: ";
             this.label5.Click += new System.EventHandler(this.label5_Click);
@@ -339,7 +341,7 @@ namespace lab4
             this.intersectionLabel.AutoSize = true;
             this.intersectionLabel.Location = new System.Drawing.Point(677, 501);
             this.intersectionLabel.Name = "intersectionLabel";
-            this.intersectionLabel.Size = new System.Drawing.Size(0, 13);
+            this.intersectionLabel.Size = new System.Drawing.Size(0, 16);
             this.intersectionLabel.TabIndex = 30;
             this.intersectionLabel.Click += new System.EventHandler(this.label6_Click);
             // 
@@ -348,7 +350,7 @@ namespace lab4
             this.userInputEdgeCheckBox.AutoSize = true;
             this.userInputEdgeCheckBox.Location = new System.Drawing.Point(172, 480);
             this.userInputEdgeCheckBox.Name = "userInputEdgeCheckBox";
-            this.userInputEdgeCheckBox.Size = new System.Drawing.Size(127, 17);
+            this.userInputEdgeCheckBox.Size = new System.Drawing.Size(158, 20);
             this.userInputEdgeCheckBox.TabIndex = 31;
             this.userInputEdgeCheckBox.Text = "Режим ввода ребра";
             this.userInputEdgeCheckBox.UseVisualStyleBackColor = true;
