@@ -197,7 +197,10 @@ namespace lab4
                     if (cnt)
                     {
                         var intersection = Geometry.FindIntersection(userInputEdge[0], userInputEdge[1], a, b);
-                        e.Graphics.DrawRectangle(new Pen(Color.Purple, 3), (float)intersection.X, (float)intersection.Y, 2, 2);
+                        if(intersection != null)
+                        {
+                            e.Graphics.DrawRectangle(new Pen(Color.Purple, 3), (float)intersection.X, (float)intersection.Y, 2, 2);
+                        }
                         intersectionLabel.Text = (intersection == null) ? "" : (int)intersection.X + " " + (int)intersection.Y;
                     } else
                     {
