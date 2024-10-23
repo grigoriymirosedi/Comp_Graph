@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -6,105 +7,84 @@ namespace Lab5
 {
     public partial class Task2 : Form
     {
-        PointF startPoint = new PointF(0, 0);
-        PointF endPoint = new PointF(0, 0);
-        private Bitmap bitmap;
-        private Graphics g;
-        private Random random = new Random();
+        List<Point> points;
 
         public Task2()
         {
             InitializeComponent();
-
-            bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            pictureBox1.Image = bitmap;
-            g = Graphics.FromImage(bitmap);
+            StartHeight.Maximum = pictureBox.Height;
+            EndHeight.Maximum = pictureBox.Height;
+            PrevStep.Enabled = false;
+            NextStep.Enabled = false;
         }
 
-        private void DrawButton_Click(object sender, EventArgs e)
+        private void MountainButton_Click(object sender, EventArgs e)
         {
-            if (!float.TryParse(roughnessTextBox.Text, out float roughness))
-            {
-                MessageBox.Show("Некорректное значение шероховатости!");
-                return;
-            }
+            // Строим начальную прямую
+            points = new List<Point>();
+            points.Add(new Point(0, pictureBox.Height - (int)StartHeight.Value));
+            points.Add(new Point(pictureBox.Width, pictureBox.Height - (int)EndHeight.Value));
+            NextStep.Enabled = true;
 
-            bitmap = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-            g = Graphics.FromImage(bitmap);
-            g.Clear(Color.White);
-
-
-            MidpointDisplacement(g, startPoint, endPoint, roughness, detailLevelBar.Value);
-
-            pictureBox1.Image = bitmap;
-            pictureBox1.Invalidate();
-        }
-        private void MidpointDisplacement(Graphics g, PointF start, PointF end, float roughness, int detailLevel)
-        {
-            if (detailLevel <= 0)
-            {
-                g.DrawLine(Pens.Black, start, end);
-
-                using (Brush blackBrush = new SolidBrush(Color.Black))
-                {
-                    PointF[] fillPoints = new PointF[]
-                    {
-                start,
-                end,
-                new PointF(end.X, pictureBox1.Height),
-                new PointF(start.X, pictureBox1.Height)
-                    };
-
-                }
-            }
-            else
-            {
-                float midX = (start.X + end.X) / 2;
-                float midY = (start.Y + end.Y) / 2;
-                float length = (end.X - start.X) / pictureBox1.Width;
-                float randomOffset = (float)(random.NextDouble() * (roughness * length * 2)) - (roughness * length); //TODO
-                midY += randomOffset;
-
-                PointF midPoint = new PointF(midX, midY);
-
-                MidpointDisplacement(g, start, midPoint, roughness, detailLevel - 1);
-                MidpointDisplacement(g, midPoint, end, roughness, detailLevel - 1);
-            }
+            DrawMountains();
         }
 
-        protected override void OnResize(EventArgs e)
+        private void NextStep_Click(object sender, EventArgs e)
         {
-            base.OnResize(e);
+            // Создаем новый массив точек
+            Random rand = new Random();
+            double R = (double)Roughness.Value;
+            List<Point> newPoints = new List<Point>();
+            newPoints.Add(points[0]);
 
-            if (bitmap != null && pictureBox1.ClientSize.Width > 0 && pictureBox1.ClientSize.Height > 0)
+            // Добавляем в каждый отрезок новую точку
+            for (int i = 1; i < points.Count; i++)
             {
-                Bitmap newBitmap = new Bitmap(pictureBox1.ClientSize.Width, pictureBox1.ClientSize.Height);
-                using (Graphics g = Graphics.FromImage(newBitmap))
-                {
-                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
-
-                    g.DrawImage(bitmap, 0, 0, newBitmap.Width, newBitmap.Height);
-                }
-
-                bitmap = newBitmap;
-                pictureBox1.Image = bitmap;
+                // Длина отрезка
+                double L = (double)Math.Sqrt(Math.Pow((double)(points[i].X - points[i - 1].X), 2) + Math.Pow((double)(points[i].Y - points[i - 1].Y), 2));
+                // Вычисляем координаы новой точки
+                newPoints.Add(new Point((points[i - 1].X + points[i].X) / 2,
+                    (points[i - 1].Y + points[i].Y) / 2 + (int)rand.Next((int)Math.Round(-R * L), (int)Math.Round(R * L + 1))));
+                newPoints.Add(points[i]);
             }
+
+            // Отключаем кнопку, если точек достаточно много (стобы было красиво)
+            if (newPoints.Count >= pictureBox.Width / 4)
+                NextStep.Enabled = false;
+            PrevStep.Enabled = true;
+
+            points = newPoints;
+            DrawMountains();
         }
 
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        private void DrawMountains()
         {
-            if (e.Button == MouseButtons.Left)
-            {
-                startPoint = new PointF(e.Location.X, e.Location.Y);
-                g.DrawRectangle(new Pen(Color.Blue,2),new Rectangle(e.Location.X,e.Location.Y,1,1));
-                pictureBox1.Image = bitmap;
-            }
-            if (e.Button == MouseButtons.Right)
-            {
-                endPoint = new PointF(e.Location.X, e.Location.Y);
-                g.DrawRectangle(new Pen(Color.Orange,2), new Rectangle(e.Location.X, e.Location.Y, 1, 1));
-                pictureBox1.Image = bitmap;
-            }
+            Bitmap newMountain = new Bitmap(pictureBox.Width, pictureBox.Height);
+            Pen pen = new Pen(Color.Blue, 2);
+
+            // Рисуем ломаную
+            using (Graphics g = Graphics.FromImage(newMountain))
+                g.DrawLines(pen, points.ToArray());
+
+            pictureBox.Image = newMountain;
+        }
+
+        private void PrevStep_Click(object sender, EventArgs e)
+        {
+            List<Point> newPoints = new List<Point>();
+
+            // Удаляем каждую вторую точку
+            for (int i = 0; i < points.Count; i += 2)
+                newPoints.Add(points[i]);
+
+            // Отключаем кнопку, если точек только две
+            if (newPoints.Count == 2)
+                PrevStep.Enabled = false;
+            NextStep.Enabled = true;
+
+            points = newPoints;
+            DrawMountains();
         }
     }
 }
+
