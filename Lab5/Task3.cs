@@ -3,6 +3,7 @@ using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics.Eventing.Reader;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -103,6 +104,7 @@ namespace Lab5
         private void Redraw()
         {
             _graphics.Clear(Color.White);
+
             DrawBezierCurve();
             DrawPoints();
             pictureBox1.Image = _bitmap;
@@ -129,8 +131,25 @@ namespace Lab5
             
                 for (int i = 1; i <= _points.Count - 3; i += 2)
                 {
-                    Point temp = new Point((_points[i - 1].X + _points[i].X) / 2, (_points[i - 1].Y + _points[i].Y) / 2);
-                    Point temp2 = new Point((_points[i + 1].X + _points[i + 2].X) / 2, (_points[i + 1].Y + _points[i + 2].Y) / 2);
+                    Point temp;
+                    Point temp2;
+                    if (1 == i && i + 2 != _points.Count - 1)
+                    {
+                        temp = _points[0];//new Point((_points[i - 1].X + _points[i].X) / 2, (_points[i - 1].Y + _points[i].Y) / 2);
+                        temp2 = new Point((_points[i + 1].X + _points[i + 2].X) / 2, (_points[i + 1].Y + _points[i + 2].Y) / 2);
+                    }else if (i== _points.Count - 3 && i-1 != 0)
+                    {
+                        temp = new Point((_points[i - 1].X + _points[i].X) / 2, (_points[i - 1].Y + _points[i].Y) / 2);
+                        temp2 = _points[_points.Count - 1];
+                    }else if(i - 1 == 0 && i + 2 == _points.Count - 1)
+                    {
+                        temp = _points[0];
+                        temp2 = _points[_points.Count - 1];
+                    }else
+                    {
+                        temp = new Point((_points[i - 1].X + _points[i].X) / 2, (_points[i - 1].Y + _points[i].Y) / 2);
+                        temp2 = new Point((_points[i + 1].X + _points[i + 2].X) / 2, (_points[i + 1].Y + _points[i + 2].Y) / 2);
+                    }
                     for (float t = 0; t <= 1; t += step)
                     {
                         float x = (float)(Math.Pow(1 - t, 3) * temp.X +
@@ -145,6 +164,7 @@ namespace Lab5
 
                         result.Add(new Point((int)x, (int)y));
                     }
+                
                 }
 
 
