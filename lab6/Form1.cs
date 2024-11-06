@@ -123,9 +123,24 @@ namespace lab6
             Invalidate();
         }
 
+        private void IcosahedronButton_Click(object sender, EventArgs e)
+        {
+            polyhedron.CreateIcosahedron();
+            Invalidate();
+        }
+
+        private void DodecahedronButton_Click(object sender, EventArgs e)
+        {
+            polyhedron.CreateDodecahedron();
+            Invalidate();
+        }
+
         private void RotateAroundAxisCenterButton_Click(object sender, EventArgs e)
         {
-            if (axisComboBox.Text == "") return;
+            if (!validateRotateAroundAxisCenter())
+            { 
+                return;
+            }
             if (Enum.TryParse(axisComboBox.SelectedItem.ToString(), out Axis axis) && float.TryParse(RotateTextBox.Text, out float angle))
             {
                 polyhedron.RotateAroundAxisCenter(axis, angle);
@@ -135,15 +150,64 @@ namespace lab6
 
         private void RotateAroundLineButton_Click(object sender, EventArgs e)
         {
+            if(!validateRotateAroundLine())
+            {
+                return;
+            }
             if (float.TryParse(x1TextBox.Text, out float x1) && float.TryParse(y1TextBox.Text, out float y1) && float.TryParse(z1TextBox.Text, out float z1) &&
                 float.TryParse(x2TextBox.Text, out float x2) && float.TryParse(y2TextBox.Text, out float y2) && float.TryParse(z2TextBox.Text, out float z2) &&
-                float.TryParse(RotateTextBox.Text, out float angle))
+                float.TryParse(RotateTextBox.Text, out float angle)
+                )
             {
                 Point3D point1 = new Point3D(x1, y1, z1);
                 Point3D point2 = new Point3D(x2, y2, z2);
                 polyhedron.RotateAroundLine(point1, point2, angle);
                 Invalidate();
             }
+        }
+
+        bool isPoint(float x1, float x2, float y1, float y2, float z1, float z2)
+        {
+            return (x1 == x2) && (y1 == y2) && (z1 == z2);
+        }
+
+        bool validateRotateAroundLine()
+        {
+            if (
+               !(float.TryParse(x1TextBox.Text, out float x1) && float.TryParse(y1TextBox.Text, out float y1) && float.TryParse(z1TextBox.Text, out float z1) &&
+               float.TryParse(x2TextBox.Text, out float x2) && float.TryParse(y2TextBox.Text, out float y2) && float.TryParse(z2TextBox.Text, out float z2)
+               )
+            )
+            {
+                MessageBox.Show("Неправильно введённые координаты!");
+                return false;
+            }
+            if (!(float.TryParse(RotateTextBox.Text, out float angle)))
+            {
+                MessageBox.Show("Неправильно указан параметр угла!");
+                return false;
+            }
+            if (isPoint(float.Parse(x1TextBox.Text), float.Parse(x2TextBox.Text), float.Parse(y1TextBox.Text), float.Parse(y2TextBox.Text), float.Parse(z1TextBox.Text), float.Parse(z2TextBox.Text)))
+            {
+                MessageBox.Show("Неправильно введённые координаты (образуется точка)!");
+                return false;
+            };
+            return true;
+        }
+
+        bool validateRotateAroundAxisCenter()
+        {
+            if(!(float.TryParse(RotateTextBox.Text, out float angle)))
+            {
+                MessageBox.Show("Неправильно указан параметр угла!");
+                return false;
+            }
+            if(axisComboBox.SelectedItem == null)
+            {
+                MessageBox.Show("Не выбрана ось!");
+                return false;
+            }
+            return true;
         }
     }
 
@@ -231,6 +295,105 @@ namespace lab6
             faces.Add(new Polygon(new List<Point3D> { p6, p4, p3 }));
             faces.Add(new Polygon(new List<Point3D> { p6, p5, p4 }));
             faces.Add(new Polygon(new List<Point3D> { p6, p2, p5 }));
+        }
+
+        public void CreateIcosahedron()
+        {
+            float phi = (float)((1 + Math.Sqrt(5)) / 2); // Золотое сечение
+
+            // Координаты вершин икосаэдра
+            Point3D p1 = new Point3D(-1f, phi, 0f);
+            Point3D p2 = new Point3D(1f, phi, 0f);
+            Point3D p3 = new Point3D(-1f, -phi, 0f);
+            Point3D p4 = new Point3D(1f, -phi, 0f);
+
+            Point3D p5 = new Point3D(0f, -1f, phi);
+            Point3D p6 = new Point3D(0f, 1f, phi);
+            Point3D p7 = new Point3D(0f, -1f, -phi);
+            Point3D p8 = new Point3D(0f, 1f, -phi);
+
+            Point3D p9 = new Point3D(phi, 0f, -1f);
+            Point3D p10 = new Point3D(phi, 0f, 1f);
+            Point3D p11 = new Point3D(-phi, 0f, -1f);
+            Point3D p12 = new Point3D(-phi, 0f, 1f);
+
+            // Очистка и добавление граней икосаэдра
+            faces.Clear();
+            faces.Add(new Polygon(new List<Point3D> { p1, p2, p6 }));
+            faces.Add(new Polygon(new List<Point3D> { p1, p6, p12 }));
+            faces.Add(new Polygon(new List<Point3D> { p1, p12, p11 }));
+            faces.Add(new Polygon(new List<Point3D> { p1, p11, p8 }));
+            faces.Add(new Polygon(new List<Point3D> { p1, p8, p2 }));
+
+            faces.Add(new Polygon(new List<Point3D> { p2, p8, p9 }));
+            faces.Add(new Polygon(new List<Point3D> { p2, p9, p10 }));
+            faces.Add(new Polygon(new List<Point3D> { p2, p10, p6 }));
+
+            faces.Add(new Polygon(new List<Point3D> { p6, p10, p5 }));
+            faces.Add(new Polygon(new List<Point3D> { p6, p5, p12 }));
+
+            faces.Add(new Polygon(new List<Point3D> { p12, p5, p3 }));
+            faces.Add(new Polygon(new List<Point3D> { p12, p3, p11 }));
+
+            faces.Add(new Polygon(new List<Point3D> { p11, p3, p7 }));
+            faces.Add(new Polygon(new List<Point3D> { p11, p7, p8 }));
+
+            faces.Add(new Polygon(new List<Point3D> { p8, p7, p9 }));
+            faces.Add(new Polygon(new List<Point3D> { p10, p9, p4 }));
+
+            faces.Add(new Polygon(new List<Point3D> { p10, p4, p5 }));
+            faces.Add(new Polygon(new List<Point3D> { p5, p4, p3 }));
+            faces.Add(new Polygon(new List<Point3D> { p3, p4, p7 }));
+            faces.Add(new Polygon(new List<Point3D> { p9, p7, p4 }));
+        }
+
+        public void CreateDodecahedron()
+        {
+            float phi = (float)((1 + Math.Sqrt(5)) / 2); // Золотое сечение
+
+            // Координаты 20 вершин додекаэдра
+            Point3D p1 = new Point3D(1, 1, 1);
+            Point3D p2 = new Point3D(1, 1, -1);
+            Point3D p3 = new Point3D(1, -1, 1);
+            Point3D p4 = new Point3D(1, -1, -1);
+            Point3D p5 = new Point3D(-1, 1, 1);
+            Point3D p6 = new Point3D(-1, 1, -1);
+            Point3D p7 = new Point3D(-1, -1, 1);
+            Point3D p8 = new Point3D(-1, -1, -1);
+
+            Point3D p9 = new Point3D(0, phi, 1 / phi);
+            Point3D p10 = new Point3D(0, phi, -1 / phi);
+            Point3D p11 = new Point3D(0, -phi, 1 / phi);
+            Point3D p12 = new Point3D(0, -phi, -1 / phi);
+
+            Point3D p13 = new Point3D(1 / phi, 0, phi);
+            Point3D p14 = new Point3D(-1 / phi, 0, phi);
+            Point3D p15 = new Point3D(1 / phi, 0, -phi);
+            Point3D p16 = new Point3D(-1 / phi, 0, -phi);
+
+            Point3D p17 = new Point3D(phi, 1 / phi, 0);
+            Point3D p18 = new Point3D(phi, -1 / phi, 0);
+            Point3D p19 = new Point3D(-phi, 1 / phi, 0);
+            Point3D p20 = new Point3D(-phi, -1 / phi, 0);
+
+            // Очистка и добавление граней додекаэдра
+            faces.Clear();
+
+            // Правильный порядок для 12 пятиугольных граней додекаэдра
+            faces.Add(new Polygon(new List<Point3D> { p1, p9, p5, p14, p13 }));
+            faces.Add(new Polygon(new List<Point3D> { p1, p13, p3, p18, p17 }));
+            faces.Add(new Polygon(new List<Point3D> { p1, p17, p2, p10, p9 }));
+            faces.Add(new Polygon(new List<Point3D> { p2, p15, p4, p18, p17 }));
+            faces.Add(new Polygon(new List<Point3D> { p2, p10, p6, p16, p15 }));
+            faces.Add(new Polygon(new List<Point3D> { p3, p11, p7, p14, p13 }));
+            faces.Add(new Polygon(new List<Point3D> { p3, p18, p4, p12, p11 }));
+            faces.Add(new Polygon(new List<Point3D> { p4, p15, p16, p8, p12 }));
+            faces.Add(new Polygon(new List<Point3D> { p5, p19, p6, p10, p9 }));
+            faces.Add(new Polygon(new List<Point3D> { p5, p14, p7, p20, p19 }));
+            faces.Add(new Polygon(new List<Point3D> { p6, p19, p20, p8, p16 }));
+            faces.Add(new Polygon(new List<Point3D> { p7, p11, p12, p8, p20 }));
+
+
         }
 
         public void DrawAxes(Graphics g, Rectangle clientRect, ProjectionType projection)

@@ -80,6 +80,8 @@
             this.y2TextBox = new System.Windows.Forms.TextBox();
             this.x2TextBox = new System.Windows.Forms.TextBox();
             this.RotateAroundLineButton = new System.Windows.Forms.Button();
+            this.IcosahedronButton = new System.Windows.Forms.Button();
+            this.DodecahedronButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ScaleButton
@@ -310,7 +312,7 @@
             this.RotateAroundAxisCenterButton.TabIndex = 25;
             this.RotateAroundAxisCenterButton.Text = "Повернуть относительно центра";
             this.RotateAroundAxisCenterButton.UseVisualStyleBackColor = true;
-            this.RotateAroundAxisCenterButton.Click += new System.EventHandler(this.RotateAroundLineButton_Click);
+            this.RotateAroundAxisCenterButton.Click += new System.EventHandler(this.RotateAroundAxisCenterButton_Click);
             // 
             // x1TextBox
             // 
@@ -419,9 +421,29 @@
             this.RotateAroundLineButton.UseVisualStyleBackColor = true;
             this.RotateAroundLineButton.Click += new System.EventHandler(this.RotateAroundLineButton_Click);
             // 
+            // IcosahedronButton
+            // 
+            this.IcosahedronButton.Location = new System.Drawing.Point(104, 305);
+            this.IcosahedronButton.Name = "IcosahedronButton";
+            this.IcosahedronButton.Size = new System.Drawing.Size(75, 23);
+            this.IcosahedronButton.TabIndex = 42;
+            this.IcosahedronButton.Text = "Икосаэдр";
+            this.IcosahedronButton.Click += new System.EventHandler(this.IcosahedronButton_Click);
+            // 
+            // DodecahedronButton
+            // 
+            this.DodecahedronButton.Location = new System.Drawing.Point(104, 335);
+            this.DodecahedronButton.Name = "DodecahedronButton";
+            this.DodecahedronButton.Size = new System.Drawing.Size(89, 23);
+            this.DodecahedronButton.TabIndex = 43;
+            this.DodecahedronButton.Text = "Додекаэдр";
+            this.DodecahedronButton.Click += new System.EventHandler(this.DodecahedronButton_Click);
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(800, 753);
+            this.Controls.Add(this.DodecahedronButton);
+            this.Controls.Add(this.IcosahedronButton);
             this.Controls.Add(this.RotateAroundLineButton);
             this.Controls.Add(this.z2Coord);
             this.Controls.Add(this.y2Coord);
@@ -492,5 +514,7 @@
         private System.Windows.Forms.TextBox y2TextBox;
         private System.Windows.Forms.TextBox x2TextBox;
         private System.Windows.Forms.Button RotateAroundLineButton;
+        private System.Windows.Forms.Button IcosahedronButton;
+        private System.Windows.Forms.Button DodecahedronButton;
     }
 }
