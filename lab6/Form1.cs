@@ -20,6 +20,14 @@ namespace lab6
         private void Form1_Paint(object sender, PaintEventArgs e)
         {
             polyhedron.Draw(e.Graphics, ClientRectangle, projection);
+            if (float.TryParse(x1TextBox.Text, out float x1) && float.TryParse(y1TextBox.Text, out float y1) && float.TryParse(z1TextBox.Text, out float z1) &&
+                float.TryParse(x2TextBox.Text, out float x2) && float.TryParse(y2TextBox.Text, out float y2) && float.TryParse(z2TextBox.Text, out float z2) &&
+                float.TryParse(RotateTextBox.Text, out float angle))
+            {
+                Point3D point1 = new Point3D(x1, y1, z1);
+                Point3D point2 = new Point3D(x2, y2, z2);
+                polyhedron.DrawLine(e.Graphics, point1, point2, ClientRectangle, projection);
+            }
         }
 
         private void ScaleButton_Click(object sender, EventArgs e)
@@ -114,6 +122,29 @@ namespace lab6
             polyhedron.CreateOctahedron();
             Invalidate();
         }
+
+        private void RotateAroundAxisCenterButton_Click(object sender, EventArgs e)
+        {
+            if (axisComboBox.Text == "") return;
+            if (Enum.TryParse(axisComboBox.SelectedItem.ToString(), out Axis axis) && float.TryParse(RotateTextBox.Text, out float angle))
+            {
+                polyhedron.RotateAroundAxisCenter(axis, angle);
+                Invalidate();
+            }
+        }
+
+        private void RotateAroundLineButton_Click(object sender, EventArgs e)
+        {
+            if (float.TryParse(x1TextBox.Text, out float x1) && float.TryParse(y1TextBox.Text, out float y1) && float.TryParse(z1TextBox.Text, out float z1) &&
+                float.TryParse(x2TextBox.Text, out float x2) && float.TryParse(y2TextBox.Text, out float y2) && float.TryParse(z2TextBox.Text, out float z2) &&
+                float.TryParse(RotateTextBox.Text, out float angle))
+            {
+                Point3D point1 = new Point3D(x1, y1, z1);
+                Point3D point2 = new Point3D(x2, y2, z2);
+                polyhedron.RotateAroundLine(point1, point2, angle);
+                Invalidate();
+            }
+        }
     }
 
     public class Point3D
@@ -202,8 +233,59 @@ namespace lab6
             faces.Add(new Polygon(new List<Point3D> { p6, p2, p5 }));
         }
 
+        public void DrawAxes(Graphics g, Rectangle clientRect, ProjectionType projection)
+        {
+            // Ось X — красная, Y — зелёная, Z — синяя
+            Point3D origin = new Point3D(0, 0, 0);
+            Point3D xEnd = new Point3D(2, 0, 0);
+            Point3D yEnd = new Point3D(0, 2, 0);
+            Point3D zEnd = new Point3D(0, 0, 2);
+
+            // Преобразуем точки для отображения в выбранной проекции
+            Point origin2D = ProjectTo2D(origin, clientRect, projection);
+            Point xEnd2D = ProjectTo2D(xEnd, clientRect, projection);
+            Point yEnd2D = ProjectTo2D(yEnd, clientRect, projection);
+            Point zEnd2D = ProjectTo2D(zEnd, clientRect, projection);
+
+            // Рисуем оси
+            g.DrawLine(Pens.Red, origin2D, xEnd2D);    // Ось X
+            g.DrawLine(Pens.Green, origin2D, yEnd2D);  // Ось Y
+            g.DrawLine(Pens.Blue, origin2D, zEnd2D);   // Ось Z
+        }
+
+        private Point ProjectTo2D(Point3D point, Rectangle clientRect, ProjectionType projection)
+        {
+            if (projection == ProjectionType.Perspective)
+            {
+                float scale = 300 / (point.Z + 5);
+                int x = (int)(clientRect.Width / 2 + point.X * scale);
+                int y = (int)(clientRect.Height / 2 - point.Y * scale);
+                return new Point(x, y);
+            }
+            else if (projection == ProjectionType.Axonometric)
+            {
+                int x = (int)(clientRect.Width / 2 + point.X * 40 - point.Z * 20);
+                int y = (int)(clientRect.Height / 2 - point.Y * 40 - point.Z * 10);
+                return new Point(x, y);
+            }
+            return Point.Empty;
+        }
+
+        public void DrawLine(Graphics g, Point3D p1, Point3D p2, Rectangle clientRect, ProjectionType projection)
+        {
+            // Преобразуем 3D точки в 2D с учетом проекции
+            Point p1_2D = ProjectTo2D(p1, clientRect, projection);
+            Point p2_2D = ProjectTo2D(p2, clientRect, projection);
+
+            // Рисуем линию между этими точками
+            g.DrawLine(Pens.Black, p1_2D, p2_2D);
+        }
+
         public void Draw(Graphics g, Rectangle clientRect, ProjectionType projection)
         {
+            DrawAxes(g, clientRect, projection);
+
+
             foreach (var face in faces)
             {
                 Point[] points = new Point[face.Points.Count];
@@ -287,6 +369,74 @@ namespace lab6
                 };
             }
             Transform(rotationMatrix);
+        }
+
+        public void RotateAroundAxisCenter(Axis axis, float angle)
+        {
+            // Сначала находим центр многогранника
+            Point3D center = GetCenter();
+
+            // Перемещаем многогранник так, чтобы его центр оказался в начале координат
+            Offset(-center.X, -center.Y, -center.Z);
+
+            // Выполняем вращение вокруг оси
+            RotateAroundAxis(axis, angle);
+
+            // Возвращаем многогранник на место
+            Offset(center.X, center.Y, center.Z);
+        }
+
+        private Point3D GetCenter()
+        {
+            float x = 0, y = 0, z = 0;
+            int pointCount = 0;
+            foreach (var face in faces)
+            {
+                foreach (var point in face.Points)
+                {
+                    x += point.X;
+                    y += point.Y;
+                    z += point.Z;
+                    pointCount++;
+                }
+            }
+            return new Point3D(x / pointCount, y / pointCount, z / pointCount);
+        }
+
+        public void RotateAroundLine(Point3D point1, Point3D point2, float angle)
+        {
+            // 1. Находим вектор направления прямой
+            float dx = point2.X - point1.X;
+            float dy = point2.Y - point1.Y;
+            float dz = point2.Z - point1.Z;
+
+            // 2. Нормализуем вектор направления прямой
+            float length = (float)Math.Sqrt(dx * dx + dy * dy + dz * dz);
+            dx /= length;
+            dy /= length;
+            dz /= length;
+
+            // 3. Перемещаем многогранник так, чтобы точка point1 стала в начале координат
+            Offset(-point1.X, -point1.Y, -point1.Z);
+
+            // 4. Выполняем вращение вокруг оси
+            float radians = angle * (float)Math.PI / 180;
+            float cos = (float)Math.Cos(radians);
+            float sin = (float)Math.Sin(radians);
+
+            // Создаем матрицу для вращения вокруг произвольной оси
+            float[,] rotationMatrix = new float[,]
+            {
+        { cos + dx * dx * (1 - cos), dx * dy * (1 - cos) - dz * sin, dx * dz * (1 - cos) + dy * sin, 0 },
+        { dy * dx * (1 - cos) + dz * sin, cos + dy * dy * (1 - cos), dy * dz * (1 - cos) - dx * sin, 0 },
+        { dz * dx * (1 - cos) - dy * sin, dz * dy * (1 - cos) + dx * sin, cos + dz * dz * (1 - cos), 0 },
+        { 0, 0, 0, 1 }
+            };
+
+            Transform(rotationMatrix);
+
+            // 5. Возвращаем многогранник обратно
+            Offset(point1.X, point1.Y, point1.Z);
         }
 
         public void Reflect(Axis axis)
