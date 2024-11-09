@@ -418,20 +418,14 @@ namespace lab6
 
         private Point ProjectTo2D(Point3D point, Rectangle clientRect, ProjectionType projection)
         {
-            if (projection == ProjectionType.Perspective)
-            {
-                float scale = 300 / (point.Z + 5);
-                int x = (int)(clientRect.Width / 2 + point.X * scale);
-                int y = (int)(clientRect.Height / 2 - point.Y * scale);
-                return new Point(x, y);
-            }
-            else if (projection == ProjectionType.Axonometric)
-            {
-                int x = (int)(clientRect.Width / 2 + point.X * 40 - point.Z * 20);
-                int y = (int)(clientRect.Height / 2 - point.Y * 40 - point.Z * 10);
-                return new Point(x, y);
-            }
-            return Point.Empty;
+            // Получаем матрицу проекции на основе типа проекции
+            float[,] projectionMatrix = GetProjectionMatrix(projection);
+
+            // Применяем проекцию к точке
+            PointF projectedPoint = ApplyProjection(point, projectionMatrix, clientRect);
+
+            // Преобразуем в целочисленные координаты для отрисовки
+            return new Point((int)projectedPoint.X, (int)projectedPoint.Y);
         }
 
         public void DrawLine(Graphics g, Point3D p1, Point3D p2, Rectangle clientRect, ProjectionType projection)
@@ -448,6 +442,8 @@ namespace lab6
         {
             DrawAxes(g, clientRect, projection);
 
+            float[,] projectionMatrix = GetProjectionMatrix(projection);
+
 
             foreach (var face in faces)
             {
@@ -455,23 +451,66 @@ namespace lab6
                 for (int i = 0; i < face.Points.Count; i++)
                 {
                     Point3D point = face.Points[i];
-
-                    if (projection == ProjectionType.Perspective)
-                    {
-                        float scale = 300 / (point.Z + 5);
-                        int x = (int)(clientRect.Width / 2 + point.X * scale);
-                        int y = (int)(clientRect.Height / 2 - point.Y * scale);
-                        points[i] = new Point(x, y);
-                    }
-                    else if (projection == ProjectionType.Axonometric)
-                    {
-                        int x = (int)(clientRect.Width / 2 + point.X * 40 - point.Z * 20);
-                        int y = (int)(clientRect.Height / 2 - point.Y * 40 - point.Z * 10);
-                        points[i] = new Point(x, y);
-                    }
+                    PointF projectedPoint = ApplyProjection(point, projectionMatrix, clientRect);
+                    points[i] = new Point((int)projectedPoint.X, (int)projectedPoint.Y);
                 }
                 g.DrawPolygon(Pens.Black, points);
             }
+        }
+
+        // Метод для получения матрицы проекции
+        private float[,] GetProjectionMatrix(ProjectionType projection)
+        {
+            if (projection == ProjectionType.Perspective)
+            {
+                float c = 5; // Коэффициент расстояния до камеры
+                return new float[,]
+                {
+            { 1, 0, 0, 0 },
+            { 0, 1, 0, 0 },
+            { 0, 0, 1, -1 / c },
+            { 0, 0, 0, 1 }
+                };
+            }
+            else if (projection == ProjectionType.Axonometric)
+            {
+                float phi = (float)(Math.PI / 4); // Угол φ
+                float psi = (float)(Math.PI / 6); // Угол ψ
+                return new float[,]
+                {
+            { (float)Math.Cos(psi), (float)(Math.Sin(phi) * Math.Sin(psi)), 0, 0 },
+            { 0, (float)Math.Cos(phi), 0, 0 },
+            { (float)Math.Sin(psi), (float)(-Math.Sin(phi) * Math.Cos(psi)), 0, 0 },
+            { 0, 0, 0, 1 }
+                };
+            }
+            else
+            {
+                throw new ArgumentException("Неизвестный тип проекции");
+            }
+        }
+
+        // Метод для применения матрицы проекции к точке
+        private PointF ApplyProjection(Point3D point, float[,] matrix, Rectangle clientRect)
+        {
+            // Умножаем вектор точки на матрицу проекции
+            float x = point.X * matrix[0, 0] + point.Y * matrix[1, 0] + point.Z * matrix[2, 0] + matrix[3, 0];
+            float y = point.X * matrix[0, 1] + point.Y * matrix[1, 1] + point.Z * matrix[2, 1] + matrix[3, 1];
+            float z = point.X * matrix[0, 2] + point.Y * matrix[1, 2] + point.Z * matrix[2, 2] + matrix[3, 2];
+            float w = point.X * matrix[0, 3] + point.Y * matrix[1, 3] + point.Z * matrix[2, 3] + matrix[3, 3];
+
+            // Для перспективной проекции делим на коэффициент w
+            if (w != 0)
+            {
+                x /= w;
+                y /= w;
+                z /= w;
+            }
+
+            // Приводим координаты к области отрисовки
+            float screenX = clientRect.Width / 2 + x * 40;
+            float screenY = clientRect.Height / 2 - y * 40;
+            return new PointF(screenX, screenY);
         }
 
         public void Scale(float factor)
