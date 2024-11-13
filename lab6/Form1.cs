@@ -515,14 +515,43 @@ namespace lab6
 
         public void Scale(float factor)
         {
+            // Получаем центр многогранника через существующий метод GetCenter()
+            Point3D center = GetCenter();
+            float centerX = center.X;
+            float centerY = center.Y;
+            float centerZ = center.Z;
+
+            // Матрица переноса к началу координат
+            float[,] translateToOrigin = {
+        { 1, 0, 0, -centerX },
+        { 0, 1, 0, -centerY },
+        { 0, 0, 1, -centerZ },
+        { 0, 0, 0, 1 }
+    };
+
             // Матрица масштабирования
             float[,] scaleMatrix = {
-                { factor, 0, 0, 0 },
-                { 0, factor, 0, 0 },
-                { 0, 0, factor, 0 },
-                { 0, 0, 0, 1 }
-            };
+        { factor, 0, 0, 0 },
+        { 0, factor, 0, 0 },
+        { 0, 0, factor, 0 },
+        { 0, 0, 0, 1 }
+    };
+
+            // Матрица обратного переноса к исходному положению
+            float[,] translateBack = {
+        { 1, 0, 0, centerX },
+        { 0, 1, 0, centerY },
+        { 0, 0, 1, centerZ },
+        { 0, 0, 0, 1 }
+    };
+
+            // Применяем последовательное преобразование:
+            // 1. Перемещаем центр к началу координат.
+            // 2. Масштабируем.
+            // 3. Возвращаем многогранник на исходное место.
+            Transform(translateToOrigin);
             Transform(scaleMatrix);
+            Transform(translateBack);
         }
 
         public void Offset(float dx, float dy, float dz)
