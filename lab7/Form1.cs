@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.IO;
 
 namespace lab6
 {
@@ -67,6 +68,43 @@ namespace lab6
                 Invalidate();
             }
         }
+        private void LoadModelButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openFileDialog = new OpenFileDialog())
+            {
+                openFileDialog.Filter = "OBJ Files (*.obj)|*.obj|All Files (*.*)|*.*";
+                openFileDialog.Title = "Load 3D Model";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    try
+                    {
+                        polyhedron = new Polyhedron();
+                        polyhedron.LoadFromOBJ(openFileDialog.FileName);
+                        Invalidate(); // Перерисовываем форму
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Error loading file: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+        private void SaveButton_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog saveFileDialog = new SaveFileDialog
+            {
+                Filter = "OBJ files (*.obj)|*.obj",
+                Title = "Сохранить объект"
+            };
+
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                polyhedron.SaveToFile(saveFileDialog.FileName);
+                MessageBox.Show("Файл успешно сохранён!", "Успех", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
 
         private void RotateZButton_Click(object sender, EventArgs e)
         {
@@ -242,6 +280,69 @@ namespace lab6
     public class Polyhedron
     {
         private List<Polygon> faces = new List<Polygon>();
+
+        public void LoadFromOBJ(string filePath)
+        {
+            List<Point3D> vertices = new List<Point3D>();
+            List<Polygon> polygons = new List<Polygon>();
+
+            foreach (var line in File.ReadLines(filePath))
+            {
+                if (line.StartsWith("v ")) // Вершины
+                {
+                    var parts = line.Replace('.', ',').Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    float x = float.Parse(parts[1]);
+                    float y = float.Parse(parts[2]);
+                    float z = float.Parse(parts[3]);
+                    vertices.Add(new Point3D(x, y, z));
+                }
+                else if (line.StartsWith("f ")) // Грани
+                {
+                    var parts = line.Split(new[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    var facePoints = new List<Point3D>();
+                    for (int i = 1; i < parts.Length; i++)
+                    {
+                        int vertexIndex = int.Parse(parts[i].Split('/')[0]) - 1; // Индексы в OBJ начинаются с 1
+                        facePoints.Add(vertices[vertexIndex]);
+                    }
+                    polygons.Add(new Polygon(facePoints));
+                }
+            }
+
+            this.faces = polygons;
+        }
+
+        public void SaveToFile(string filePath)
+        {
+            using (StreamWriter writer = new StreamWriter(filePath))
+            {
+                // Сохраняем вершины
+                int vertexIndex = 1;
+                Dictionary<Point3D, int> vertexIndices = new Dictionary<Point3D, int>();
+                foreach (var face in faces)
+                {
+                    foreach (var point in face.Points)
+                    {
+                        if (!vertexIndices.ContainsKey(point))
+                        {
+                            writer.WriteLine($"v {(double)point.X} {(double)point.Y} {(double)point.Z}");
+                            vertexIndices[point] = vertexIndex++;
+                        }
+                    }
+                }
+
+                // Сохраняем грани
+                foreach (var face in faces)
+                {
+                    List<int> indices = new List<int>();
+                    foreach (var point in face.Points)
+                    {
+                        indices.Add(vertexIndices[point]);
+                    }
+                    writer.WriteLine($"f {string.Join(" ", indices)}");
+                }
+            }
+        }
 
         public void CreateTetrahedron()
         {

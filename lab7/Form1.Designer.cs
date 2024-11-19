@@ -82,6 +82,8 @@
             this.RotateAroundLineButton = new System.Windows.Forms.Button();
             this.IcosahedronButton = new System.Windows.Forms.Button();
             this.DodecahedronButton = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // ScaleButton
@@ -163,7 +165,7 @@
             "Axonometric"});
             this.ProjectionComboBox.Location = new System.Drawing.Point(10, 275);
             this.ProjectionComboBox.Name = "ProjectionComboBox";
-            this.ProjectionComboBox.Size = new System.Drawing.Size(121, 24);
+            this.ProjectionComboBox.Size = new System.Drawing.Size(121, 21);
             this.ProjectionComboBox.TabIndex = 8;
             this.ProjectionComboBox.SelectedIndexChanged += new System.EventHandler(this.ProjectionComboBox_SelectedIndexChanged);
             // 
@@ -171,35 +173,35 @@
             // 
             this.ScaleTextBox.Location = new System.Drawing.Point(213, 10);
             this.ScaleTextBox.Name = "ScaleTextBox";
-            this.ScaleTextBox.Size = new System.Drawing.Size(50, 22);
+            this.ScaleTextBox.Size = new System.Drawing.Size(50, 20);
             this.ScaleTextBox.TabIndex = 9;
             // 
             // RotateTextBox
             // 
             this.RotateTextBox.Location = new System.Drawing.Point(205, 103);
             this.RotateTextBox.Name = "RotateTextBox";
-            this.RotateTextBox.Size = new System.Drawing.Size(50, 22);
+            this.RotateTextBox.Size = new System.Drawing.Size(50, 20);
             this.RotateTextBox.TabIndex = 10;
             // 
             // OffsetXTextBox
             // 
             this.OffsetXTextBox.Location = new System.Drawing.Point(149, 43);
             this.OffsetXTextBox.Name = "OffsetXTextBox";
-            this.OffsetXTextBox.Size = new System.Drawing.Size(50, 22);
+            this.OffsetXTextBox.Size = new System.Drawing.Size(50, 20);
             this.OffsetXTextBox.TabIndex = 11;
             // 
             // OffsetYTextBox
             // 
             this.OffsetYTextBox.Location = new System.Drawing.Point(235, 43);
             this.OffsetYTextBox.Name = "OffsetYTextBox";
-            this.OffsetYTextBox.Size = new System.Drawing.Size(50, 22);
+            this.OffsetYTextBox.Size = new System.Drawing.Size(50, 20);
             this.OffsetYTextBox.TabIndex = 12;
             // 
             // OffsetZTextBox
             // 
             this.OffsetZTextBox.Location = new System.Drawing.Point(331, 43);
             this.OffsetZTextBox.Name = "OffsetZTextBox";
-            this.OffsetZTextBox.Size = new System.Drawing.Size(50, 22);
+            this.OffsetZTextBox.Size = new System.Drawing.Size(50, 20);
             this.OffsetZTextBox.TabIndex = 13;
             // 
             // TetrahedronButton
@@ -234,7 +236,7 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(125, 46);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(18, 16);
+            this.label1.Size = new System.Drawing.Size(17, 13);
             this.label1.TabIndex = 17;
             this.label1.Text = "X:";
             // 
@@ -243,7 +245,7 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(210, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(19, 16);
+            this.label2.Size = new System.Drawing.Size(17, 13);
             this.label2.TabIndex = 18;
             this.label2.Text = "Y:";
             // 
@@ -252,7 +254,7 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(307, 46);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(18, 16);
+            this.label3.Size = new System.Drawing.Size(17, 13);
             this.label3.TabIndex = 19;
             this.label3.Text = "Z:";
             // 
@@ -261,7 +263,7 @@
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(125, 13);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(68, 16);
+            this.label4.Size = new System.Drawing.Size(56, 13);
             this.label4.TabIndex = 20;
             this.label4.Text = "Масштаб:";
             // 
@@ -270,7 +272,7 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(132, 106);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(67, 16);
+            this.label5.Size = new System.Drawing.Size(53, 13);
             this.label5.TabIndex = 21;
             this.label5.Text = "Поворот:";
             // 
@@ -283,7 +285,7 @@
             "Z"});
             this.axisComboBox.Location = new System.Drawing.Point(12, 425);
             this.axisComboBox.Name = "axisComboBox";
-            this.axisComboBox.Size = new System.Drawing.Size(121, 24);
+            this.axisComboBox.Size = new System.Drawing.Size(121, 21);
             this.axisComboBox.TabIndex = 22;
             // 
             // label6
@@ -291,7 +293,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(12, 402);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(34, 16);
+            this.label6.Size = new System.Drawing.Size(30, 13);
             this.label6.TabIndex = 23;
             this.label6.Text = "Ось:";
             // 
@@ -300,7 +302,7 @@
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(10, 253);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(74, 16);
+            this.label7.Size = new System.Drawing.Size(60, 13);
             this.label7.TabIndex = 24;
             this.label7.Text = "Проекция:";
             // 
@@ -318,21 +320,21 @@
             // 
             this.x1TextBox.Location = new System.Drawing.Point(33, 506);
             this.x1TextBox.Name = "x1TextBox";
-            this.x1TextBox.Size = new System.Drawing.Size(51, 22);
+            this.x1TextBox.Size = new System.Drawing.Size(51, 20);
             this.x1TextBox.TabIndex = 26;
             // 
             // y1TextBox
             // 
             this.y1TextBox.Location = new System.Drawing.Point(128, 506);
             this.y1TextBox.Name = "y1TextBox";
-            this.y1TextBox.Size = new System.Drawing.Size(51, 22);
+            this.y1TextBox.Size = new System.Drawing.Size(51, 20);
             this.y1TextBox.TabIndex = 27;
             // 
             // z1TextBox
             // 
             this.z1TextBox.Location = new System.Drawing.Point(233, 506);
             this.z1TextBox.Name = "z1TextBox";
-            this.z1TextBox.Size = new System.Drawing.Size(51, 22);
+            this.z1TextBox.Size = new System.Drawing.Size(51, 20);
             this.z1TextBox.TabIndex = 28;
             // 
             // x1Coord
@@ -340,7 +342,7 @@
             this.x1Coord.AutoSize = true;
             this.x1Coord.Location = new System.Drawing.Point(9, 512);
             this.x1Coord.Name = "x1Coord";
-            this.x1Coord.Size = new System.Drawing.Size(25, 16);
+            this.x1Coord.Size = new System.Drawing.Size(23, 13);
             this.x1Coord.TabIndex = 32;
             this.x1Coord.Text = "X1:";
             // 
@@ -349,7 +351,7 @@
             this.y1Coord.AutoSize = true;
             this.y1Coord.Location = new System.Drawing.Point(104, 509);
             this.y1Coord.Name = "y1Coord";
-            this.y1Coord.Size = new System.Drawing.Size(26, 16);
+            this.y1Coord.Size = new System.Drawing.Size(23, 13);
             this.y1Coord.TabIndex = 33;
             this.y1Coord.Text = "Y1:";
             // 
@@ -358,7 +360,7 @@
             this.z1Coord.AutoSize = true;
             this.z1Coord.Location = new System.Drawing.Point(209, 506);
             this.z1Coord.Name = "z1Coord";
-            this.z1Coord.Size = new System.Drawing.Size(25, 16);
+            this.z1Coord.Size = new System.Drawing.Size(23, 13);
             this.z1Coord.TabIndex = 34;
             this.z1Coord.Text = "Z1:";
             // 
@@ -367,7 +369,7 @@
             this.z2Coord.AutoSize = true;
             this.z2Coord.Location = new System.Drawing.Point(209, 534);
             this.z2Coord.Name = "z2Coord";
-            this.z2Coord.Size = new System.Drawing.Size(25, 16);
+            this.z2Coord.Size = new System.Drawing.Size(23, 13);
             this.z2Coord.TabIndex = 40;
             this.z2Coord.Text = "Z2:";
             // 
@@ -377,7 +379,7 @@
             this.y2Coord.Location = new System.Drawing.Point(104, 537);
             this.y2Coord.Name = "y2Coord";
             this.y2Coord.RightToLeft = System.Windows.Forms.RightToLeft.No;
-            this.y2Coord.Size = new System.Drawing.Size(26, 16);
+            this.y2Coord.Size = new System.Drawing.Size(23, 13);
             this.y2Coord.TabIndex = 39;
             this.y2Coord.Text = "Y2:";
             // 
@@ -386,7 +388,7 @@
             this.x2Coord.AutoSize = true;
             this.x2Coord.Location = new System.Drawing.Point(9, 540);
             this.x2Coord.Name = "x2Coord";
-            this.x2Coord.Size = new System.Drawing.Size(25, 16);
+            this.x2Coord.Size = new System.Drawing.Size(23, 13);
             this.x2Coord.TabIndex = 38;
             this.x2Coord.Text = "X2:";
             // 
@@ -394,21 +396,21 @@
             // 
             this.z2TextBox.Location = new System.Drawing.Point(233, 534);
             this.z2TextBox.Name = "z2TextBox";
-            this.z2TextBox.Size = new System.Drawing.Size(51, 22);
+            this.z2TextBox.Size = new System.Drawing.Size(51, 20);
             this.z2TextBox.TabIndex = 37;
             // 
             // y2TextBox
             // 
             this.y2TextBox.Location = new System.Drawing.Point(128, 534);
             this.y2TextBox.Name = "y2TextBox";
-            this.y2TextBox.Size = new System.Drawing.Size(51, 22);
+            this.y2TextBox.Size = new System.Drawing.Size(51, 20);
             this.y2TextBox.TabIndex = 36;
             // 
             // x2TextBox
             // 
             this.x2TextBox.Location = new System.Drawing.Point(33, 534);
             this.x2TextBox.Name = "x2TextBox";
-            this.x2TextBox.Size = new System.Drawing.Size(51, 22);
+            this.x2TextBox.Size = new System.Drawing.Size(51, 20);
             this.x2TextBox.TabIndex = 35;
             // 
             // RotateAroundLineButton
@@ -439,9 +441,31 @@
             this.DodecahedronButton.Text = "Додекаэдр";
             this.DodecahedronButton.Click += new System.EventHandler(this.DodecahedronButton_Click);
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(599, 524);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 44;
+            this.button1.Text = "load";
+            this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.LoadModelButton_Click);
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(693, 524);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.TabIndex = 45;
+            this.button2.Text = "save";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.SaveButton_Click);
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(800, 753);
+            this.Controls.Add(this.button2);
+            this.Controls.Add(this.button1);
             this.Controls.Add(this.DodecahedronButton);
             this.Controls.Add(this.IcosahedronButton);
             this.Controls.Add(this.RotateAroundLineButton);
@@ -516,5 +540,7 @@
         private System.Windows.Forms.Button RotateAroundLineButton;
         private System.Windows.Forms.Button IcosahedronButton;
         private System.Windows.Forms.Button DodecahedronButton;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button button2;
     }
 }
