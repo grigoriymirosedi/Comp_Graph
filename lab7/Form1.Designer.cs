@@ -84,6 +84,14 @@
             this.DodecahedronButton = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.GeneratingPointsGrid = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.AxisComboBox1 = new System.Windows.Forms.ComboBox();
+            this.SegmentsNumericUpDown = new System.Windows.Forms.TextBox();
+            this.BuildRevolutionFigureButton = new System.Windows.Forms.Button();
+            ((System.ComponentModel.ISupportInitialize)(this.GeneratingPointsGrid)).BeginInit();
             this.SuspendLayout();
             // 
             // ScaleButton
@@ -461,9 +469,69 @@
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.SaveButton_Click);
             // 
+            // GeneratingPointsGrid
+            // 
+            this.GeneratingPointsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.GeneratingPointsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.Column1,
+            this.Column2,
+            this.Column3});
+            this.GeneratingPointsGrid.Location = new System.Drawing.Point(445, 13);
+            this.GeneratingPointsGrid.Name = "GeneratingPointsGrid";
+            this.GeneratingPointsGrid.Size = new System.Drawing.Size(343, 150);
+            this.GeneratingPointsGrid.TabIndex = 46;
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "X";
+            this.Column1.Name = "Column1";
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Y";
+            this.Column2.Name = "Column2";
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Z";
+            this.Column3.Name = "Column3";
+            // 
+            // AxisComboBox1
+            // 
+            this.AxisComboBox1.FormattingEnabled = true;
+            this.AxisComboBox1.Items.AddRange(new object[] {
+            "X",
+            "Y",
+            "Z"});
+            this.AxisComboBox1.Location = new System.Drawing.Point(478, 169);
+            this.AxisComboBox1.Name = "AxisComboBox1";
+            this.AxisComboBox1.Size = new System.Drawing.Size(121, 21);
+            this.AxisComboBox1.TabIndex = 47;
+            // 
+            // SegmentsNumericUpDown
+            // 
+            this.SegmentsNumericUpDown.Location = new System.Drawing.Point(490, 192);
+            this.SegmentsNumericUpDown.Name = "SegmentsNumericUpDown";
+            this.SegmentsNumericUpDown.Size = new System.Drawing.Size(100, 20);
+            this.SegmentsNumericUpDown.TabIndex = 48;
+            // 
+            // BuildRevolutionFigureButton
+            // 
+            this.BuildRevolutionFigureButton.Location = new System.Drawing.Point(647, 166);
+            this.BuildRevolutionFigureButton.Name = "BuildRevolutionFigureButton";
+            this.BuildRevolutionFigureButton.Size = new System.Drawing.Size(75, 23);
+            this.BuildRevolutionFigureButton.TabIndex = 49;
+            this.BuildRevolutionFigureButton.Text = "build";
+            this.BuildRevolutionFigureButton.UseVisualStyleBackColor = true;
+            this.BuildRevolutionFigureButton.Click += new System.EventHandler(this.BuildRevolutionFigureButton_Click);
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(800, 753);
+            this.Controls.Add(this.BuildRevolutionFigureButton);
+            this.Controls.Add(this.SegmentsNumericUpDown);
+            this.Controls.Add(this.AxisComboBox1);
+            this.Controls.Add(this.GeneratingPointsGrid);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.DodecahedronButton);
@@ -511,6 +579,7 @@
             this.Text = "Polyhedron Transformations";
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
+            ((System.ComponentModel.ISupportInitialize)(this.GeneratingPointsGrid)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -542,5 +611,12 @@
         private System.Windows.Forms.Button DodecahedronButton;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.DataGridView GeneratingPointsGrid;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column2;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
+        private System.Windows.Forms.ComboBox AxisComboBox1;
+        private System.Windows.Forms.TextBox SegmentsNumericUpDown;
+        private System.Windows.Forms.Button BuildRevolutionFigureButton;
     }
 }

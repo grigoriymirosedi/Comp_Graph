@@ -105,6 +105,125 @@ namespace lab6
             }
         }
 
+        private void BuildRevolutionFigureButton_Click(object sender, EventArgs e)
+        {
+            List<Point3D> generatingPoints = new List<Point3D>();
+            foreach (DataGridViewRow row in GeneratingPointsGrid.Rows)
+            {
+                if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null)
+                {
+                    
+                    float x =  (float)Convert.ToDouble(row.Cells[0].Value);
+                    float y = (float)Convert.ToDouble(row.Cells[1].Value);
+                    float z = (float)Convert.ToDouble(row.Cells[2].Value);
+                    generatingPoints.Add(new Point3D(x, y, z));
+                }
+            }
+
+            string axis = AxisComboBox1.SelectedItem.ToString();
+            int segments = int.Parse(SegmentsNumericUpDown.Text);
+
+            polyhedron = CreateRevolutionFigure(generatingPoints, axis, segments);
+            Invalidate(); // Перерисовка сцены
+        }
+        public Polyhedron CreateRevolutionFigure(List<Point3D> generatingPoints, string axis, int segments)
+        {
+            Polyhedron polyhedron = new Polyhedron();
+            List<Polygon> faces = new List<Polygon>();
+            List<Point3D> allPoints = new List<Point3D>();
+
+            // Угол шага (в радианах)
+            float angleStep = (float)(2 * Math.PI / segments);
+
+            // Генерация всех вершин
+            for (int i = 0; i < segments; i++)
+            {
+                float angle = i * angleStep;
+                float[,] rotationMatrix = GetRotationMatrix(angle, axis);
+
+                foreach (var point in generatingPoints)
+                {
+                    Point3D rotatedPoint = point.Transform(rotationMatrix);
+                    allPoints.Add(rotatedPoint);
+                }
+            }
+
+            // Создание граней
+            int pointsPerLevel = generatingPoints.Count;
+            for (int i = 0; i < segments; i++)
+            {
+                int nextSegment = (i + 1) % segments;
+
+                for (int j = 0; j < pointsPerLevel - 1; j++)
+                {
+                    // Индексы текущего сегмента
+                    int current = i * pointsPerLevel + j;
+                    int next = current + 1;
+
+                    // Индексы следующего сегмента
+                    int currentNextSegment = nextSegment * pointsPerLevel + j;
+                    int nextNextSegment = currentNextSegment + 1;
+
+                    // Создание грани
+                    Polygon face = new Polygon(new List<Point3D>
+            {
+                allPoints[current],
+                allPoints[next],
+                allPoints[nextNextSegment],
+                allPoints[currentNextSegment]
+            });
+
+                    faces.Add(face);
+                }
+            }
+
+            // Добавляем грани в полиэдр
+            foreach (var face in faces)
+            {
+                polyhedron.faces.Add(face);
+            }
+
+            return polyhedron;
+        }
+
+        private float[,] GetRotationMatrix(float angle, string axis)
+        {
+            float cosA = (float)Math.Cos(angle);
+            float sinA = (float)Math.Sin(angle);
+
+            switch (axis.ToUpper())
+            {
+                case "X":
+                    return new float[,]
+                    {
+                { 1, 0, 0, 0 },
+                { 0, cosA, -sinA, 0 },
+                { 0, sinA, cosA, 0 },
+                { 0, 0, 0, 1 }
+                    };
+                case "Y":
+                    return new float[,]
+                    {
+                { cosA, 0, sinA, 0 },
+                { 0, 1, 0, 0 },
+                { -sinA, 0, cosA, 0 },
+                { 0, 0, 0, 1 }
+                    };
+                case "Z":
+                    return new float[,]
+                    {
+                { cosA, -sinA, 0, 0 },
+                { sinA, cosA, 0, 0 },
+                { 0, 0, 1, 0 },
+                { 0, 0, 0, 1 }
+                    };
+                default:
+                    throw new ArgumentException("Invalid axis specified. Use 'X', 'Y', or 'Z'.");
+            }
+        }
+
+
+
 
         private void RotateZButton_Click(object sender, EventArgs e)
         {
@@ -279,7 +398,7 @@ namespace lab6
 
     public class Polyhedron
     {
-        private List<Polygon> faces = new List<Polygon>();
+        public List<Polygon> faces = new List<Polygon>();
 
         public void LoadFromOBJ(string filePath)
         {
@@ -343,6 +462,8 @@ namespace lab6
                 }
             }
         }
+
+
 
         public void CreateTetrahedron()
         {
