@@ -91,6 +91,13 @@
             this.AxisComboBox1 = new System.Windows.Forms.ComboBox();
             this.SegmentsNumericUpDown = new System.Windows.Forms.TextBox();
             this.BuildRevolutionFigureButton = new System.Windows.Forms.Button();
+            this.txtX0 = new System.Windows.Forms.TextBox();
+            this.txtX1 = new System.Windows.Forms.TextBox();
+            this.txtY0 = new System.Windows.Forms.TextBox();
+            this.txtY1 = new System.Windows.Forms.TextBox();
+            this.txtDivisions = new System.Windows.Forms.TextBox();
+            this.cmbFunction = new System.Windows.Forms.ComboBox();
+            this.btnGenerateSurface = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GeneratingPointsGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -451,7 +458,7 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(599, 524);
+            this.button1.Location = new System.Drawing.Point(834, 253);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 44;
@@ -461,7 +468,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(693, 524);
+            this.button2.Location = new System.Drawing.Point(948, 253);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 45;
@@ -525,9 +532,72 @@
             this.BuildRevolutionFigureButton.UseVisualStyleBackColor = true;
             this.BuildRevolutionFigureButton.Click += new System.EventHandler(this.BuildRevolutionFigureButton_Click);
             // 
+            // txtX0
+            // 
+            this.txtX0.Location = new System.Drawing.Point(490, 614);
+            this.txtX0.Name = "txtX0";
+            this.txtX0.Size = new System.Drawing.Size(100, 20);
+            this.txtX0.TabIndex = 50;
+            // 
+            // txtX1
+            // 
+            this.txtX1.Location = new System.Drawing.Point(647, 614);
+            this.txtX1.Name = "txtX1";
+            this.txtX1.Size = new System.Drawing.Size(100, 20);
+            this.txtX1.TabIndex = 51;
+            // 
+            // txtY0
+            // 
+            this.txtY0.Location = new System.Drawing.Point(490, 664);
+            this.txtY0.Name = "txtY0";
+            this.txtY0.Size = new System.Drawing.Size(100, 20);
+            this.txtY0.TabIndex = 52;
+            // 
+            // txtY1
+            // 
+            this.txtY1.Location = new System.Drawing.Point(647, 664);
+            this.txtY1.Name = "txtY1";
+            this.txtY1.Size = new System.Drawing.Size(100, 20);
+            this.txtY1.TabIndex = 53;
+            // 
+            // txtDivisions
+            // 
+            this.txtDivisions.Location = new System.Drawing.Point(568, 706);
+            this.txtDivisions.Name = "txtDivisions";
+            this.txtDivisions.Size = new System.Drawing.Size(100, 20);
+            this.txtDivisions.TabIndex = 54;
+            // 
+            // cmbFunction
+            // 
+            this.cmbFunction.FormattingEnabled = true;
+            this.cmbFunction.Items.AddRange(new object[] {
+            "Sin(x)*Cos(y)",
+            "x^2 + y^2"});
+            this.cmbFunction.Location = new System.Drawing.Point(790, 652);
+            this.cmbFunction.Name = "cmbFunction";
+            this.cmbFunction.Size = new System.Drawing.Size(121, 21);
+            this.cmbFunction.TabIndex = 55;
+            // 
+            // btnGenerateSurface
+            // 
+            this.btnGenerateSurface.Location = new System.Drawing.Point(758, 706);
+            this.btnGenerateSurface.Name = "btnGenerateSurface";
+            this.btnGenerateSurface.Size = new System.Drawing.Size(75, 23);
+            this.btnGenerateSurface.TabIndex = 56;
+            this.btnGenerateSurface.Text = "generate";
+            this.btnGenerateSurface.UseVisualStyleBackColor = true;
+            this.btnGenerateSurface.Click += new System.EventHandler(this.btnGenerateSurface_Click);
+            // 
             // Form1
             // 
-            this.ClientSize = new System.Drawing.Size(800, 753);
+            this.ClientSize = new System.Drawing.Size(1076, 772);
+            this.Controls.Add(this.btnGenerateSurface);
+            this.Controls.Add(this.cmbFunction);
+            this.Controls.Add(this.txtDivisions);
+            this.Controls.Add(this.txtY1);
+            this.Controls.Add(this.txtY0);
+            this.Controls.Add(this.txtX1);
+            this.Controls.Add(this.txtX0);
             this.Controls.Add(this.BuildRevolutionFigureButton);
             this.Controls.Add(this.SegmentsNumericUpDown);
             this.Controls.Add(this.AxisComboBox1);
@@ -618,5 +688,12 @@
         private System.Windows.Forms.ComboBox AxisComboBox1;
         private System.Windows.Forms.TextBox SegmentsNumericUpDown;
         private System.Windows.Forms.Button BuildRevolutionFigureButton;
+        private System.Windows.Forms.TextBox txtX0;
+        private System.Windows.Forms.TextBox txtX1;
+        private System.Windows.Forms.TextBox txtY0;
+        private System.Windows.Forms.TextBox txtY1;
+        private System.Windows.Forms.TextBox txtDivisions;
+        private System.Windows.Forms.ComboBox cmbFunction;
+        private System.Windows.Forms.Button btnGenerateSurface;
     }
 }

@@ -126,6 +126,52 @@ namespace lab6
             polyhedron = CreateRevolutionFigure(generatingPoints, axis, segments);
             Invalidate(); // Перерисовка сцены
         }
+
+        private void btnGenerateSurface_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Чтение данных из формы
+                float x0 = float.Parse(txtX0.Text);
+                float x1 = float.Parse(txtX1.Text);
+                float y0 = float.Parse(txtY0.Text);
+                float y1 = float.Parse(txtY1.Text);
+                int divisions = int.Parse(txtDivisions.Text);
+
+                // Выбор функции
+                Func<float, float, float> func = GetSelectedFunction();
+
+                // Генерация поверхности
+                Polyhedron surface = SurfaceGenerator.GenerateSurface(func, x0, x1, y0, y1, divisions);
+
+                // Сохранение модели в файл
+                string filePath = "surface.obj"; // Можете добавить диалог сохранения файла
+                surface.SaveToFile(filePath);
+
+                MessageBox.Show($"График сохранен в файл {filePath}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Ошибка: {ex.Message}");
+            }
+        }
+
+        // Функция для выбора нужной функции f(x, y)
+        private Func<float, float, float> GetSelectedFunction()
+        {
+            if (cmbFunction.SelectedIndex == 0) // Синус и косинус
+            {
+                return (x, y) => (float)Math.Sin(x) * (float)Math.Cos(y);
+            }
+            else if (cmbFunction.SelectedIndex == 1) // x^2 + y^2
+            {
+                return (x, y) => x * x + y * y;
+            }
+            else
+            {
+                throw new Exception("Функция не выбрана!");
+            }
+        }
         public Polyhedron CreateRevolutionFigure(List<Point3D> generatingPoints, string axis, int segments)
         {
             Polyhedron polyhedron = new Polyhedron();
@@ -399,6 +445,10 @@ namespace lab6
     public class Polyhedron
     {
         public List<Polygon> faces = new List<Polygon>();
+        public void AddFaces(List<Polygon> newFaces)
+        {
+            this.faces.AddRange(newFaces);
+        }
 
         public void LoadFromOBJ(string filePath)
         {
@@ -936,6 +986,63 @@ namespace lab6
             }
         }
     }
+    public class SurfaceGenerator
+    {
+        public static Polyhedron GenerateSurface(Func<float, float, float> func, float x0, float x1, float y0, float y1, int divisions)
+        {
+            List<Point3D> vertices = new List<Point3D>();
+            List<Polygon> faces = new List<Polygon>();
+
+            float stepX = (x1 - x0) / divisions;
+            float stepY = (y1 - y0) / divisions;
+
+            // Генерация вершин
+            for (int i = 0; i <= divisions; i++)
+            {
+                float x = x0 + i * stepX;
+                for (int j = 0; j <= divisions; j++)
+                {
+                    float y = y0 + j * stepY;
+                    float z = func(x, y);
+                    vertices.Add(new Point3D(x, y, z));
+                }
+            }
+
+            // Генерация граней
+            for (int i = 0; i < divisions; i++)
+            {
+                for (int j = 0; j < divisions; j++)
+                {
+                    // Индексы вершин текущего сегмента
+                    int topLeft = i * (divisions + 1) + j;
+                    int topRight = topLeft + 1;
+                    int bottomLeft = (i + 1) * (divisions + 1) + j;
+                    int bottomRight = bottomLeft + 1;
+
+                    // Первая треугольная грань
+                    faces.Add(new Polygon(new List<Point3D>
+                {
+                    vertices[topLeft],
+                    vertices[bottomLeft],
+                    vertices[bottomRight]
+                }));
+
+                    // Вторая треугольная грань
+                    faces.Add(new Polygon(new List<Point3D>
+                {
+                    vertices[topLeft],
+                    vertices[bottomRight],
+                    vertices[topRight]
+                }));
+                }
+            }
+
+            Polyhedron polyhedron = new Polyhedron();
+            polyhedron.AddFaces(faces);
+            return polyhedron;
+        }
+    }
+
 
     public enum Axis { X, Y, Z }
     public enum ProjectionType { Perspective, Axonometric }
