@@ -109,7 +109,11 @@
             this.label16 = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
             this.label18 = new System.Windows.Forms.Label();
+            this.pictureBox = new System.Windows.Forms.PictureBox();
+            this.BuildFromCanvasButton = new System.Windows.Forms.Button();
+            this.clear = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.GeneratingPointsGrid)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
             // 
             // ScaleButton
@@ -726,9 +730,44 @@
             this.label18.TabIndex = 67;
             this.label18.Text = "Диапазон отсечения";
             // 
+            // pictureBox
+            // 
+            this.pictureBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.pictureBox.BackColor = System.Drawing.SystemColors.ControlDark;
+            this.pictureBox.Location = new System.Drawing.Point(729, 573);
+            this.pictureBox.Name = "pictureBox";
+            this.pictureBox.Size = new System.Drawing.Size(295, 176);
+            this.pictureBox.TabIndex = 68;
+            this.pictureBox.TabStop = false;
+            this.pictureBox.Paint += new System.Windows.Forms.PaintEventHandler(this.pictureBox_Paint);
+            this.pictureBox.MouseClick += new System.Windows.Forms.MouseEventHandler(this.pictureBox_MouseClick);
+            // 
+            // BuildFromCanvasButton
+            // 
+            this.BuildFromCanvasButton.Location = new System.Drawing.Point(612, 726);
+            this.BuildFromCanvasButton.Name = "BuildFromCanvasButton";
+            this.BuildFromCanvasButton.Size = new System.Drawing.Size(75, 23);
+            this.BuildFromCanvasButton.TabIndex = 69;
+            this.BuildFromCanvasButton.Text = "button3";
+            this.BuildFromCanvasButton.UseVisualStyleBackColor = true;
+            this.BuildFromCanvasButton.Click += new System.EventHandler(this.BuildFromCanvasButton_Click);
+            // 
+            // clear
+            // 
+            this.clear.Location = new System.Drawing.Point(612, 683);
+            this.clear.Name = "clear";
+            this.clear.Size = new System.Drawing.Size(75, 23);
+            this.clear.TabIndex = 70;
+            this.clear.Text = "clear";
+            this.clear.UseVisualStyleBackColor = true;
+            this.clear.Click += new System.EventHandler(this.clear_Click);
+            // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1076, 772);
+            this.Controls.Add(this.clear);
+            this.Controls.Add(this.BuildFromCanvasButton);
+            this.Controls.Add(this.pictureBox);
             this.Controls.Add(this.label18);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.label16);
@@ -799,6 +838,7 @@
             this.WindowState = System.Windows.Forms.FormWindowState.Maximized;
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.Form1_Paint);
             ((System.ComponentModel.ISupportInitialize)(this.GeneratingPointsGrid)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -855,5 +895,8 @@
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.Button BuildFromCanvasButton;
+        private System.Windows.Forms.Button clear;
     }
 }

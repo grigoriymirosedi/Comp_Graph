@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using System.IO;
+using System.Linq;
 
 namespace lab6
 {
@@ -272,7 +273,64 @@ namespace lab6
             }
         }
 
+        List<PointF> canvasPoints = new List<PointF>();
 
+        private void pictureBox_MouseClick(object sender, MouseEventArgs e)
+        {
+            // Добавляем точку, где кликнули мышкой
+
+            canvasPoints.Add(new PointF(e.X, e.Y));
+
+            // Перерисовываем PictureBox
+            pictureBox.Invalidate();
+        }
+
+        private void pictureBox_Paint(object sender, PaintEventArgs e)
+        {
+            // Рисуем все точки
+            foreach (var point in canvasPoints)
+            {
+
+                e.Graphics.FillEllipse(Brushes.Black, point.X - 2, point.Y - 2, 4, 4);
+            }
+        }
+
+        private void BuildFromCanvasButton_Click(object sender, EventArgs e)
+        {
+            polyhedron = new Polyhedron();
+            float scaleX = 2.0f / pictureBox.Width;
+            float scaleY = 2.0f / pictureBox.Height;
+            string axis = AxisComboBox1.SelectedItem.ToString();
+            // Преобразуем точки с Canvas в 3D точки
+            List<Point3D> generatingPoints = canvasPoints
+                .Select(p => new Point3D(p.X* scaleX, p.Y* scaleY, 0)) // Преобразование из 2D в 3D
+                .ToList();
+            switch (axis.ToUpper())
+            {
+                case "X":
+                    generatingPoints = canvasPoints
+                .Select(p => new Point3D(p.X * scaleX, p.Y * scaleY, 0)) // Преобразование из 2D в 3D
+                .ToList();
+                    break ;
+                case "Y":
+                   generatingPoints = canvasPoints
+                .Select(p => new Point3D(p.Y * scaleY, p.X * scaleX, 0)) // Преобразование из 2D в 3D
+                .ToList();
+                    break;
+                case "Z":
+                    generatingPoints = canvasPoints
+                .Select(p => new Point3D(0, p.Y * scaleY, p.X * scaleX)) // Преобразование из 2D в 3D
+                .ToList();
+                    break;
+                default:
+                    throw new ArgumentException("Invalid axis specified. Use 'X', 'Y', or 'Z'.");
+            }
+            
+            int segments = int.Parse(SegmentsNumericUpDown.Text);
+
+            polyhedron = CreateRevolutionFigure(generatingPoints, axis, segments);
+            Invalidate(); // Перерисовка сцены
+        }
 
 
         private void RotateZButton_Click(object sender, EventArgs e)
@@ -415,6 +473,12 @@ namespace lab6
                 return false;
             }
             return true;
+        }
+
+        private void clear_Click(object sender, EventArgs e)
+        {
+            canvasPoints.Clear();
+            pictureBox.Invalidate();
         }
     }
 
