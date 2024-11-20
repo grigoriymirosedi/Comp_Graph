@@ -98,6 +98,17 @@
             this.txtDivisions = new System.Windows.Forms.TextBox();
             this.cmbFunction = new System.Windows.Forms.ComboBox();
             this.btnGenerateSurface = new System.Windows.Forms.Button();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label13 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.GeneratingPointsGrid)).BeginInit();
             this.SuspendLayout();
             // 
@@ -458,34 +469,37 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(834, 253);
+            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button1.Location = new System.Drawing.Point(878, 527);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 44;
-            this.button1.Text = "load";
+            this.button1.Text = "Загрузить";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.LoadModelButton_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(948, 253);
+            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.button2.Location = new System.Drawing.Point(986, 527);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 45;
-            this.button2.Text = "save";
+            this.button2.Text = "Сохранить";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.SaveButton_Click);
             // 
             // GeneratingPointsGrid
             // 
+            this.GeneratingPointsGrid.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.GeneratingPointsGrid.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.GeneratingPointsGrid.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1,
             this.Column2,
             this.Column3});
-            this.GeneratingPointsGrid.Location = new System.Drawing.Point(445, 13);
+            this.GeneratingPointsGrid.Location = new System.Drawing.Point(643, 43);
             this.GeneratingPointsGrid.Name = "GeneratingPointsGrid";
-            this.GeneratingPointsGrid.Size = new System.Drawing.Size(343, 150);
+            this.GeneratingPointsGrid.Size = new System.Drawing.Size(421, 150);
             this.GeneratingPointsGrid.TabIndex = 46;
             // 
             // Column1
@@ -505,92 +519,227 @@
             // 
             // AxisComboBox1
             // 
+            this.AxisComboBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.AxisComboBox1.FormattingEnabled = true;
             this.AxisComboBox1.Items.AddRange(new object[] {
             "X",
             "Y",
             "Z"});
-            this.AxisComboBox1.Location = new System.Drawing.Point(478, 169);
+            this.AxisComboBox1.Location = new System.Drawing.Point(779, 213);
             this.AxisComboBox1.Name = "AxisComboBox1";
             this.AxisComboBox1.Size = new System.Drawing.Size(121, 21);
             this.AxisComboBox1.TabIndex = 47;
             // 
             // SegmentsNumericUpDown
             // 
-            this.SegmentsNumericUpDown.Location = new System.Drawing.Point(490, 192);
+            this.SegmentsNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.SegmentsNumericUpDown.Location = new System.Drawing.Point(779, 246);
             this.SegmentsNumericUpDown.Name = "SegmentsNumericUpDown";
             this.SegmentsNumericUpDown.Size = new System.Drawing.Size(100, 20);
             this.SegmentsNumericUpDown.TabIndex = 48;
             // 
             // BuildRevolutionFigureButton
             // 
-            this.BuildRevolutionFigureButton.Location = new System.Drawing.Point(647, 166);
+            this.BuildRevolutionFigureButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.BuildRevolutionFigureButton.Location = new System.Drawing.Point(949, 211);
             this.BuildRevolutionFigureButton.Name = "BuildRevolutionFigureButton";
             this.BuildRevolutionFigureButton.Size = new System.Drawing.Size(75, 23);
             this.BuildRevolutionFigureButton.TabIndex = 49;
-            this.BuildRevolutionFigureButton.Text = "build";
+            this.BuildRevolutionFigureButton.Text = "Построить";
             this.BuildRevolutionFigureButton.UseVisualStyleBackColor = true;
             this.BuildRevolutionFigureButton.Click += new System.EventHandler(this.BuildRevolutionFigureButton_Click);
             // 
             // txtX0
             // 
-            this.txtX0.Location = new System.Drawing.Point(490, 614);
+            this.txtX0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtX0.Location = new System.Drawing.Point(668, 355);
             this.txtX0.Name = "txtX0";
-            this.txtX0.Size = new System.Drawing.Size(100, 20);
+            this.txtX0.Size = new System.Drawing.Size(56, 20);
             this.txtX0.TabIndex = 50;
             // 
             // txtX1
             // 
-            this.txtX1.Location = new System.Drawing.Point(647, 614);
+            this.txtX1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtX1.Location = new System.Drawing.Point(802, 355);
             this.txtX1.Name = "txtX1";
-            this.txtX1.Size = new System.Drawing.Size(100, 20);
+            this.txtX1.Size = new System.Drawing.Size(53, 20);
             this.txtX1.TabIndex = 51;
             // 
             // txtY0
             // 
-            this.txtY0.Location = new System.Drawing.Point(490, 664);
+            this.txtY0.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtY0.Location = new System.Drawing.Point(668, 411);
             this.txtY0.Name = "txtY0";
-            this.txtY0.Size = new System.Drawing.Size(100, 20);
+            this.txtY0.Size = new System.Drawing.Size(56, 20);
             this.txtY0.TabIndex = 52;
             // 
             // txtY1
             // 
-            this.txtY1.Location = new System.Drawing.Point(647, 664);
+            this.txtY1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtY1.Location = new System.Drawing.Point(802, 411);
             this.txtY1.Name = "txtY1";
-            this.txtY1.Size = new System.Drawing.Size(100, 20);
+            this.txtY1.Size = new System.Drawing.Size(53, 20);
             this.txtY1.TabIndex = 53;
             // 
             // txtDivisions
             // 
-            this.txtDivisions.Location = new System.Drawing.Point(568, 706);
+            this.txtDivisions.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtDivisions.Location = new System.Drawing.Point(771, 456);
             this.txtDivisions.Name = "txtDivisions";
             this.txtDivisions.Size = new System.Drawing.Size(100, 20);
             this.txtDivisions.TabIndex = 54;
             // 
             // cmbFunction
             // 
+            this.cmbFunction.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.cmbFunction.FormattingEnabled = true;
             this.cmbFunction.Items.AddRange(new object[] {
             "Sin(x)*Cos(y)",
-            "x^2 + y^2"});
-            this.cmbFunction.Location = new System.Drawing.Point(790, 652);
+            "x^2 + y^2",
+            "(x^2/a^2)-(y^2/b^2)=cz"});
+            this.cmbFunction.Location = new System.Drawing.Point(920, 358);
             this.cmbFunction.Name = "cmbFunction";
             this.cmbFunction.Size = new System.Drawing.Size(121, 21);
             this.cmbFunction.TabIndex = 55;
             // 
             // btnGenerateSurface
             // 
-            this.btnGenerateSurface.Location = new System.Drawing.Point(758, 706);
+            this.btnGenerateSurface.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnGenerateSurface.Location = new System.Drawing.Point(903, 454);
             this.btnGenerateSurface.Name = "btnGenerateSurface";
             this.btnGenerateSurface.Size = new System.Drawing.Size(75, 23);
             this.btnGenerateSurface.TabIndex = 56;
-            this.btnGenerateSurface.Text = "generate";
+            this.btnGenerateSurface.Text = "Построить";
             this.btnGenerateSurface.UseVisualStyleBackColor = true;
             this.btnGenerateSurface.Click += new System.EventHandler(this.btnGenerateSurface_Click);
+            // 
+            // label8
+            // 
+            this.label8.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(643, 213);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(30, 13);
+            this.label8.TabIndex = 57;
+            this.label8.Text = "Ось:";
+            // 
+            // label9
+            // 
+            this.label9.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(643, 250);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(126, 13);
+            this.label9.TabIndex = 58;
+            this.label9.Text = "Количество разбиений:";
+            // 
+            // label10
+            // 
+            this.label10.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label10.Location = new System.Drawing.Point(643, 305);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(269, 15);
+            this.label10.TabIndex = 59;
+            this.label10.Text = "Построение графика двух переменных";
+            // 
+            // label11
+            // 
+            this.label11.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(641, 358);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(21, 13);
+            this.label11.TabIndex = 60;
+            this.label11.Text = "x0:";
+            // 
+            // label12
+            // 
+            this.label12.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(775, 358);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(21, 13);
+            this.label12.TabIndex = 61;
+            this.label12.Text = "x1:";
+            // 
+            // label13
+            // 
+            this.label13.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(641, 414);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(21, 13);
+            this.label13.TabIndex = 62;
+            this.label13.Text = "y0:";
+            // 
+            // label14
+            // 
+            this.label14.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(775, 414);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(21, 13);
+            this.label14.TabIndex = 63;
+            this.label14.Text = "y1:";
+            // 
+            // label15
+            // 
+            this.label15.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(885, 362);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(29, 13);
+            this.label15.TabIndex = 64;
+            this.label15.Text = "f(x.y)";
+            // 
+            // label16
+            // 
+            this.label16.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(635, 459);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(126, 13);
+            this.label16.TabIndex = 65;
+            this.label16.Text = "Количество разбиений:";
+            // 
+            // label17
+            // 
+            this.label17.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label17.Location = new System.Drawing.Point(643, 18);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(212, 15);
+            this.label17.TabIndex = 66;
+            this.label17.Text = "Построение фигуры вращения";
+            // 
+            // label18
+            // 
+            this.label18.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.label18.Location = new System.Drawing.Point(643, 335);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(131, 13);
+            this.label18.TabIndex = 67;
+            this.label18.Text = "Диапазон отсечения";
             // 
             // Form1
             // 
             this.ClientSize = new System.Drawing.Size(1076, 772);
+            this.Controls.Add(this.label18);
+            this.Controls.Add(this.label17);
+            this.Controls.Add(this.label16);
+            this.Controls.Add(this.label15);
+            this.Controls.Add(this.label14);
+            this.Controls.Add(this.label13);
+            this.Controls.Add(this.label12);
+            this.Controls.Add(this.label11);
+            this.Controls.Add(this.label10);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.btnGenerateSurface);
             this.Controls.Add(this.cmbFunction);
             this.Controls.Add(this.txtDivisions);
@@ -695,5 +844,16 @@
         private System.Windows.Forms.TextBox txtDivisions;
         private System.Windows.Forms.ComboBox cmbFunction;
         private System.Windows.Forms.Button btnGenerateSurface;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.Label label18;
     }
 }

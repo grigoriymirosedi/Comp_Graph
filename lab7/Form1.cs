@@ -167,6 +167,10 @@ namespace lab6
             {
                 return (x, y) => x * x + y * y;
             }
+            else if (cmbFunction.SelectedIndex == 2) // (x^2/a^2) - (y^2/b^2) =cz 
+            {
+                return (x, y) => (((x * x) / 5) - ((y * y) / 5));
+            }
             else
             {
                 throw new Exception("Функция не выбрана!");
